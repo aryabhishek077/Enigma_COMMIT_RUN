@@ -47,19 +47,24 @@ function DoctorPrescriptionsPage() {
     confidence: "High (98.4%)",
   });
 
-  const handleUseDemo = () => {
+  const handleUseDemo = (presetStrength = "500 mg") => {
     setHasFile(true);
     setAnalyzing(true);
     setExtracted(false);
     setVerified(false);
+    setForm((prev) => ({
+      ...prev,
+      medicine: "Metformin",
+      strength: presetStrength,
+    }));
 
     setTimeout(() => {
       setAnalyzing(false);
       setExtracted(true);
       toast.success("AI Extraction Complete", {
-        description: "Prescription parsed. Doctor verification is required before plan activation.",
+        description: `Prescription parsed with Metformin ${presetStrength}. Doctor verification required.`,
       });
-    }, 1200);
+    }, 900);
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -152,9 +157,12 @@ function DoctorPrescriptionsPage() {
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-border flex items-center gap-3">
-                <Button variant="hero" className="w-full" onClick={handleUseDemo}>
-                  <Sparkles className="size-4 mr-1.5" /> Use Demo Prescription
+              <div className="mt-6 pt-4 border-t border-border flex flex-col gap-2">
+                <Button variant="hero" className="w-full" onClick={() => handleUseDemo("500 mg")}>
+                  <Sparkles className="size-4 mr-1.5" /> TEST 1: Prescribe Metformin 500 mg
+                </Button>
+                <Button variant="outline" className="w-full text-indigo-700 border-indigo-200 hover:bg-indigo-50" onClick={() => handleUseDemo("850 mg")}>
+                  <Sparkles className="size-4 mr-1.5" /> TEST 4: Update Dosage to Metformin 850 mg
                 </Button>
               </div>
             </div>

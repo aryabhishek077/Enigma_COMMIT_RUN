@@ -10,6 +10,8 @@ export const Route = createFileRoute("/patient/prescriptions")({
 function PatientPrescriptionsPage() {
   const { prescriptions } = useCare();
 
+  const activePrescriptions = prescriptions.filter((rx) => rx.status !== "SUPERSEDED");
+
   return (
     <DashboardShell
       title="My Verified Prescriptions"
@@ -17,7 +19,7 @@ function PatientPrescriptionsPage() {
       badge="Doctor Signed"
     >
       <div className="space-y-4 max-w-5xl">
-        {prescriptions.map((rx) => (
+        {activePrescriptions.map((rx) => (
           <div key={rx.id} className="p-6 rounded-3xl border border-border bg-card shadow-sm">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-border">
               <div>

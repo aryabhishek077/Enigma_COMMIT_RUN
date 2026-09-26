@@ -5,7 +5,6 @@ import {
   initialSupply,
   pharmacies,
   caregiverAlerts as initialCaregiverAlerts,
-  doctorPatients,
   type Dose,
   type DoseStatus,
   type PharmacyRequest,
@@ -49,7 +48,7 @@ export type Prescription = {
   patientCode: string;
   doctorName: string;
   date: string;
-  status: "VERIFIED" | "PENDING_VERIFICATION";
+  status: "ACTIVE" | "VERIFIED" | "SUPERSEDED" | "PENDING_VERIFICATION";
   medicine: string;
   strength: string;
   dose: string;
@@ -69,25 +68,48 @@ export type CareAlert = {
 };
 
 export const REGISTERED_ACCOUNTS: Record<string, { password: string; user: AuthUser }> = {
+  // Demo domains requested
+  "doctor@swasthya.demo": {
+    password: "doctor123",
+    user: { email: "doctor@swasthya.demo", name: "Dr. Amit Sharma", role: "doctor", codeOrReg: "MMC123456" },
+  },
+  "patient@swasthya.demo": {
+    password: "patient123",
+    user: { email: "patient@swasthya.demo", name: "Mrs. Sunita Sharma", role: "patient", codeOrReg: "SWS-P-8F42K91" },
+  },
+  "caregiver@swasthya.demo": {
+    password: "caretaker123",
+    user: { email: "caregiver@swasthya.demo", name: "Rahul Sharma", role: "caregiver", codeOrReg: "SWS-CG-4819" },
+  },
+  "pharmacy@swasthya.demo": {
+    password: "medical123",
+    user: { email: "pharmacy@swasthya.demo", name: "ABC Medical", role: "pharmacy", codeOrReg: "SWS-PH-9921" },
+  },
+  "admin@swasthya.demo": {
+    password: "admin123",
+    user: { email: "admin@swasthya.demo", name: "Swasthya Admin", role: "admin", codeOrReg: "Auditor" },
+  },
+
+  // Also support .com variants
   "doctor@swasthya.com": {
     password: "doctor123",
-    user: { email: "doctor@swasthya.com", name: "Dr. Amit Sharma", role: "doctor", codeOrReg: "MMC123456" },
+    user: { email: "doctor@swasthya.demo", name: "Dr. Amit Sharma", role: "doctor", codeOrReg: "MMC123456" },
   },
   "patient@swasthya.com": {
     password: "patient123",
-    user: { email: "patient@swasthya.com", name: "Mrs. Sunita Sharma", role: "patient", codeOrReg: "SWS-P-8F42K91" },
+    user: { email: "patient@swasthya.demo", name: "Mrs. Sunita Sharma", role: "patient", codeOrReg: "SWS-P-8F42K91" },
   },
   "caretaker@swasthya.com": {
     password: "caretaker123",
-    user: { email: "caretaker@swasthya.com", name: "Rahul Sharma", role: "caregiver", codeOrReg: "Caregiver (Son)" },
+    user: { email: "caregiver@swasthya.demo", name: "Rahul Sharma", role: "caregiver", codeOrReg: "SWS-CG-4819" },
   },
   "medical@swasthya.com": {
     password: "medical123",
-    user: { email: "medical@swasthya.com", name: "ABC Medical", role: "pharmacy", codeOrReg: "Lic: MH-PUN-2024" },
+    user: { email: "pharmacy@swasthya.demo", name: "ABC Medical", role: "pharmacy", codeOrReg: "SWS-PH-9921" },
   },
   "admin@swasthya.com": {
     password: "admin123",
-    user: { email: "admin@swasthya.com", name: "Swasthya Admin", role: "admin", codeOrReg: "Auditor" },
+    user: { email: "admin@swasthya.demo", name: "Swasthya Admin", role: "admin", codeOrReg: "Auditor" },
   },
 };
 
@@ -131,16 +153,17 @@ type CareState = {
   alerts: CareAlert[];
   // Reset demo
   resetAllDemoData: () => void;
+  refreshFromDatabase: () => Promise<void>;
 };
 
 const CareContext = createContext<CareState | null>(null);
 
-const STORAGE_KEY = "swasthya_care_state_v3";
+const STORAGE_KEY = "swasthya_care_auth_v4";
 
 export function CareProvider({ children }: { children: ReactNode }) {
   // Authentication State
   const [currentUser, setCurrentUser] = useState<AuthUser | null>({
-    email: "patient@swasthya.com",
+    email: "patient@swasthya.demo",
     name: "Mrs. Sunita Sharma",
     role: "patient",
     codeOrReg: "SWS-P-8F42K91",
@@ -172,15 +195,15 @@ export function CareProvider({ children }: { children: ReactNode }) {
     },
   ]);
 
-  // Prescriptions
+  // Prescriptions (from Shared Database)
   const [prescriptions, setPrescriptions] = useState<Prescription[]>([
     {
-      id: "rx-101",
+      id: "RX-001",
       patientName: "Mrs. Sunita Sharma",
       patientCode: "SWS-P-8F42K91",
       doctorName: "Dr. Amit Sharma",
       date: "2026-09-26",
-      status: "VERIFIED",
+      status: "ACTIVE",
       medicine: "Metformin",
       strength: "500 mg",
       dose: "1 tablet",
@@ -190,123 +213,182 @@ export function CareProvider({ children }: { children: ReactNode }) {
       instructions: "After meals",
       aiConfidence: "High (98%)",
     },
-    {
-      id: "rx-102",
-      patientName: "Mrs. Sunita Sharma",
-      patientCode: "SWS-P-8F42K91",
-      doctorName: "Dr. Amit Sharma",
-      date: "2026-09-20",
-      status: "VERIFIED",
-      medicine: "Amlodipine",
-      strength: "5 mg",
-      dose: "1 tablet",
-      frequency: "Once daily",
-      timing: "Morning",
-      duration: "30 days",
-      instructions: "With water",
-      aiConfidence: "High (99%)",
-    },
   ]);
 
-  // Doses
+  // Doses / Medication Schedules (from Shared Database)
   const [doses, setDoses] = useState<Dose[]>(initialDoses);
 
-  // Supply
+  // Supply / Inventory (from Shared Database)
   const [supply, setSupply] = useState<SupplyItem[]>(initialSupply);
 
-  // Pharmacy Requests
+  // Pharmacy Requests (from Shared Database)
   const [requests, setRequests] = useState<PharmacyRequest[]>(initialPharmacyRequests);
 
-  // Alerts
+  // Alerts & Notifications (from Shared Database)
   const [alerts, setAlerts] = useState<CareAlert[]>(initialCaregiverAlerts);
 
-  // Missed simulation flag
+  // Simulation flag
   const [hasRepeatedMissed, setHasRepeatedMissed] = useState(false);
 
-  // Real-time notification for patient
+  // Notification for patient / caregiver
   const [lastPatientNotification, setLastPatientNotification] = useState<string | null>(null);
 
-  // Load from localStorage on mount
+  // Load auth state from localStorage
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed.doctorVerification) setDoctorVerification(parsed.doctorVerification);
-        if (parsed.doctorPatientRels) setDoctorPatientRels(parsed.doctorPatientRels);
-        if (parsed.prescriptions) setPrescriptions(parsed.prescriptions);
-        if (parsed.doses) setDoses(parsed.doses);
-        if (parsed.supply) setSupply(parsed.supply);
-        if (parsed.requests) setRequests(parsed.requests);
-        if (parsed.alerts) setAlerts(parsed.alerts);
-        if (parsed.lastPatientNotification) setLastPatientNotification(parsed.lastPatientNotification);
-        if (parsed.hasRepeatedMissed !== undefined) setHasRepeatedMissed(parsed.hasRepeatedMissed);
-        if (parsed.currentRole) setCurrentRole(parsed.currentRole);
+      const savedAuth = localStorage.getItem(STORAGE_KEY);
+      if (savedAuth) {
+        const parsed = JSON.parse(savedAuth);
         if (parsed.currentUser) setCurrentUser(parsed.currentUser);
+        if (parsed.currentRole) setCurrentRole(parsed.currentRole);
         if (parsed.isAuthenticated !== undefined) setIsAuthenticated(parsed.isAuthenticated);
       }
-    } catch (e) {
-      console.warn("Could not parse saved care state", e);
+    } catch {
+      // ignore
     }
-
-    // Cross-tab real-time synchronization
-    const handleStorage = (e: StorageEvent) => {
-      if (e.key === STORAGE_KEY && e.newValue) {
-        try {
-          const parsed = JSON.parse(e.newValue);
-          if (parsed.prescriptions) setPrescriptions(parsed.prescriptions);
-          if (parsed.doses) setDoses(parsed.doses);
-          if (parsed.supply) setSupply(parsed.supply);
-          if (parsed.requests) setRequests(parsed.requests);
-          if (parsed.alerts) setAlerts(parsed.alerts);
-          if (parsed.lastPatientNotification) setLastPatientNotification(parsed.lastPatientNotification);
-          if (parsed.hasRepeatedMissed !== undefined) setHasRepeatedMissed(parsed.hasRepeatedMissed);
-        } catch {
-          // ignore
-        }
-      }
-    };
-    window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
-  // Save changes to localStorage
+  // Save auth state to localStorage
   useEffect(() => {
     try {
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
-          doctorVerification,
-          doctorPatientRels,
-          prescriptions,
-          doses,
-          supply,
-          requests,
-          alerts,
-          lastPatientNotification,
-          hasRepeatedMissed,
-          currentRole,
           currentUser,
+          currentRole,
           isAuthenticated,
         }),
       );
     } catch {
       // ignore
     }
-  }, [
-    doctorVerification,
-    doctorPatientRels,
-    prescriptions,
-    doses,
-    supply,
-    requests,
-    alerts,
-    lastPatientNotification,
-    hasRepeatedMissed,
-    currentRole,
-    currentUser,
-    isAuthenticated,
-  ]);
+  }, [currentUser, currentRole, isAuthenticated]);
+
+  /**
+   * CENTRAL DATABASE SYNCHRONIZATION FUNCTION
+   * Pulls latest relational tables from /api/db/all
+   */
+  const refreshFromDatabase = useCallback(async () => {
+    try {
+      const res = await fetch("/api/db/all", { cache: "no-store" });
+      if (!res.ok) return;
+      const data = await res.json();
+
+      // 1. Prescriptions
+      if (Array.isArray(data.prescriptions)) {
+        const mappedRx: Prescription[] = data.prescriptions.map((p: any) => {
+          const item = p.items?.[0] || {};
+          return {
+            id: p.id,
+            patientName: p.patient_name || "Mrs. Sunita Sharma",
+            patientCode: p.patient_code || "SWS-P-8F42K91",
+            doctorName: p.doctor_name || "Dr. Amit Sharma",
+            date: p.date || "2026-09-26",
+            status: p.status || "ACTIVE",
+            medicine: item.medicine_name || "Metformin",
+            strength: item.strength || "500 mg",
+            dose: item.dose || "1 tablet",
+            frequency: item.frequency || "Twice daily",
+            timing: item.timing || "Morning + Night",
+            duration: item.duration || "30 days",
+            instructions: item.instructions || "After meals",
+            aiConfidence: item.ai_confidence || "High (98%)",
+          };
+        });
+        setPrescriptions(mappedRx);
+      }
+
+      // 2. Schedules / Doses
+      if (Array.isArray(data.schedules)) {
+        const mappedDoses: Dose[] = data.schedules.map((s: any) => ({
+          id: s.id,
+          time: s.scheduled_time,
+          label: s.label,
+          medicine: s.medicine,
+          strength: s.strength,
+          amount: s.amount,
+          instruction: s.instruction,
+          status: s.status as DoseStatus,
+        }));
+        setDoses(mappedDoses);
+      }
+
+      // 3. Medications / Supply
+      if (Array.isArray(data.medications)) {
+        const mappedSupply: SupplyItem[] = data.medications.map((m: any) => ({
+          id: m.id,
+          medicine: m.medicine_name,
+          strength: m.strength,
+          tabletsLeft: m.tablets_left,
+          tabletsTotal: m.tablets_total,
+          daysRemaining: m.days_remaining,
+        }));
+        setSupply(mappedSupply);
+      }
+
+      // 4. Pharmacy Requests
+      if (Array.isArray(data.medicine_requests)) {
+        const mappedRequests: PharmacyRequest[] = data.medicine_requests.map((r: any) => ({
+          id: r.id,
+          medicine: r.medicine_name,
+          strength: r.strength,
+          quantity: `${r.quantity} pack(s)`,
+          patientLabel: `${r.patient_name} (${r.patient_code})`,
+          time: r.requested_at,
+          status:
+            r.status === "AVAILABLE"
+              ? "confirmed"
+              : r.status === "NOT_AVAILABLE"
+              ? "unavailable"
+              : "pending",
+        }));
+        setRequests(mappedRequests);
+      }
+
+      // 5. Notifications / Care Alerts
+      if (Array.isArray(data.notifications)) {
+        const mappedAlerts: CareAlert[] = data.notifications.map((n: any) => ({
+          id: n.id,
+          tone:
+            n.type === "MEDICATION_ALERT"
+              ? "warning"
+              : n.type === "PHARMACY_RESPONSE"
+              ? "success"
+              : "info",
+          title: n.title,
+          detail: n.message,
+          time: new Date(n.created_at).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }),
+        }));
+        setAlerts(mappedAlerts);
+
+        // Highlight latest notification for current user
+        if (mappedAlerts.length > 0) {
+          const latest = mappedAlerts[0]!;
+          setLastPatientNotification(latest.detail);
+        }
+      }
+    } catch (err) {
+      console.warn("[CareStore] Sync error:", err);
+    }
+  }, []);
+
+  // Poll database every 2.5 seconds + on window focus for continuous cross-user sync
+  useEffect(() => {
+    void refreshFromDatabase();
+    const interval = setInterval(() => {
+      void refreshFromDatabase();
+    }, 2500);
+
+    const onFocus = () => {
+      void refreshFromDatabase();
+    };
+    window.addEventListener("focus", onFocus);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("focus", onFocus);
+    };
+  }, [refreshFromDatabase]);
 
   // Authentication logic
   const loginUser = useCallback((email: string, pass: string) => {
@@ -320,8 +402,9 @@ export function CareProvider({ children }: { children: ReactNode }) {
     setCurrentUser(acc.user);
     setIsAuthenticated(true);
     setCurrentRole(acc.user.role);
+    void refreshFromDatabase();
     return { success: true };
-  }, []);
+  }, [refreshFromDatabase]);
 
   const logout = useCallback(() => {
     setIsAuthenticated(false);
@@ -367,156 +450,141 @@ export function CareProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
-  // Dose status update
-  const setDoseStatus = useCallback((id: string, status: DoseStatus) => {
-    setDoses((prev) => prev.map((d) => (d.id === id ? { ...d, status } : d)));
-    if (status === "taken") {
-      setSupply((prev) =>
-        prev.map((s) => {
-          const match = initialDoses.find((d) => d.id === id);
-          if (match && s.medicine.toLowerCase() === match.medicine.toLowerCase() && s.tabletsLeft > 0) {
-            const nextLeft = s.tabletsLeft - 1;
-            return {
-              ...s,
-              tabletsLeft: nextLeft,
-              daysRemaining: Math.max(0, Math.floor(nextLeft / 2)),
-            };
-          }
-          return s;
-        }),
-      );
-    }
-  }, []);
+  // Dose status update (TAKEN or MISSED or SNOOZED)
+  const setDoseStatus = useCallback(
+    async (id: string, status: DoseStatus) => {
+      setDoses((prev) => prev.map((d) => (d.id === id ? { ...d, status } : d)));
+      try {
+        const targetDose = doses.find((d) => d.id === id);
+        await fetch("/api/db/adherence", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            schedule_id: id,
+            medicine_name: targetDose?.medicine || "Metformin",
+            status: status === "taken" ? "TAKEN" : status === "missed" ? "MISSED" : "SNOOZED",
+            patient_id: "PAT-001",
+          }),
+        });
+        await refreshFromDatabase();
+      } catch (e) {
+        console.error("Failed to post adherence:", e);
+      }
+    },
+    [doses, refreshFromDatabase],
+  );
 
   // Simulate repeated missed doses
-  const simulateRepeatedMissed = useCallback(() => {
+  const simulateRepeatedMissed = useCallback(async () => {
     setHasRepeatedMissed(true);
     setDoses((prev) =>
       prev.map((d) => (d.id === "d4" ? { ...d, status: "missed" } : d)),
     );
-    setAlerts((prev) => [
-      {
-        id: "a-alert-" + Date.now(),
-        tone: "warning",
-        title: "Sunita has missed the evening medication acknowledgement multiple times this week",
-        detail: "Pattern detected: 3 of last 4 evening Metformin 500 mg doses were not confirmed.",
-        time: "Just now",
-      },
-      ...prev,
-    ]);
-  }, []);
+    try {
+      await fetch("/api/db/adherence", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          schedule_id: "d4",
+          medicine_name: "Metformin",
+          status: "MISSED",
+          patient_id: "PAT-001",
+        }),
+      });
+      await refreshFromDatabase();
+    } catch (e) {
+      console.error("Failed to simulate missed dose:", e);
+    }
+  }, [refreshFromDatabase]);
 
   // Prescription Actions
-  const verifyPrescription = useCallback((rxId?: string) => {
-    setPrescriptions((prev) =>
-      prev.map((rx) =>
-        !rxId || rx.id === rxId ? { ...rx, status: "VERIFIED" } : rx,
-      ),
-    );
+  const verifyPrescription = useCallback(() => {
+    // verified via addPrescription
   }, []);
 
-  const addPrescription = useCallback((rx: Omit<Prescription, "id">) => {
-    const newRx: Prescription = {
-      ...rx,
-      id: "rx-" + Date.now(),
-    };
-    // 1. Add to prescriptions list
-    setPrescriptions((prev) => [newRx, ...prev]);
-
-    // 2. Dispatch real-time notification to patient
-    setLastPatientNotification(
-      `New Prescription Verified: Dr. Amit Sharma has added ${rx.medicine} ${rx.strength} (${rx.frequency}) to your daily medication plan.`,
-    );
-
-    // 3. Immediately dispatch an audit alert to Caretaker Rahul Sharma's Alert Center
-    setAlerts((prev) => [
-      {
-        id: "alert-rx-" + Date.now(),
-        tone: "info",
-        title: `Doctor updated medication plan: ${rx.medicine} ${rx.strength}`,
-        detail: `Dr. Amit Sharma (MMC123456) verified a new prescription for Sunita Sharma: ${rx.dose}, ${rx.frequency}, ${rx.instructions}.`,
-        time: "Just now",
-      },
-      ...prev,
-    ]);
-
-    // 4. Ensure dose schedule is updated for patient Sunita Sharma
-    setDoses((prev) => {
-      const exists = prev.some((d) => d.medicine.toLowerCase() === rx.medicine.toLowerCase());
-      if (!exists) {
-        return [
-          ...prev,
-          {
-            id: "dose-" + Date.now(),
-            time: "08:00 PM",
-            label: "Evening",
-            medicine: rx.medicine,
+  const addPrescription = useCallback(
+    async (rx: Omit<Prescription, "id">) => {
+      try {
+        const res = await fetch("/api/db/prescription", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            medicine_name: rx.medicine,
             strength: rx.strength,
-            amount: rx.dose || "1 tablet",
-            instruction: rx.instructions || "After meals",
-            status: "pending" as DoseStatus,
-          },
-        ];
+            dose: rx.dose,
+            frequency: rx.frequency,
+            timing: rx.timing,
+            duration: rx.duration,
+            instructions: rx.instructions,
+            ai_confidence: rx.aiConfidence,
+            patient_id: "PAT-001",
+            patient_name: "Mrs. Sunita Sharma",
+            patient_code: "SWS-P-8F42K91",
+            doctor_id: "DOC-001",
+            doctor_name: "Dr. Amit Sharma",
+            doctor_reg: "MMC123456",
+          }),
+        });
+        if (res.ok) {
+          await refreshFromDatabase();
+        }
+      } catch (e) {
+        console.error("Failed to add prescription to database:", e);
       }
-      return prev;
-    });
-
-    // 5. Ensure supply tracking is updated
-    setSupply((prev) => {
-      const exists = prev.some((s) => s.medicine.toLowerCase() === rx.medicine.toLowerCase());
-      if (!exists) {
-        return [
-          ...prev,
-          {
-            id: "supply-" + Date.now(),
-            medicine: rx.medicine,
-            strength: rx.strength,
-            tabletsLeft: 30,
-            tabletsTotal: 30,
-            daysRemaining: 15,
-          },
-        ];
-      }
-      return prev;
-    });
-  }, []);
+    },
+    [refreshFromDatabase],
+  );
 
   // Pharmacy Requests
   const createPharmacyRequest = useCallback(
-    (medicine: string, strength: string, quantity: string, pharmacyName: string) => {
-      const newReq: PharmacyRequest = {
-        id: "req-" + Date.now(),
-        medicine,
-        strength,
-        quantity,
-        patientLabel: "Sunita Sharma (SWS-P-8F42K91)",
-        time: "Just now",
-        status: "pending",
-      };
-      setRequests((prev) => [newReq, ...prev]);
-      setLastPatientNotification(`Availability request sent to ${pharmacyName} for ${medicine} ${strength}.`);
+    async (medicine: string, strength: string, quantity: string, pharmacyName: string) => {
+      try {
+        const qtyNum = parseInt(quantity.replace(/\D/g, "")) || 2;
+        await fetch("/api/db/request-medicine", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            medicine_name: medicine,
+            strength: strength,
+            quantity: qtyNum,
+            pharmacy_id: "PHARMACY-001",
+            pharmacy_name: pharmacyName,
+            patient_id: "PAT-001",
+            patient_name: "Mrs. Sunita Sharma",
+            patient_code: "SWS-P-8F42K91",
+            requested_by_user_id: currentUser?.codeOrReg || "PAT-001",
+            requested_by_name: currentUser?.name || "Mrs. Sunita Sharma",
+            requested_by_role: currentRole === "caregiver" ? "caregiver" : "patient",
+            notes: `${quantity} requested. Shelf check required.`,
+          }),
+        });
+        await refreshFromDatabase();
+      } catch (e) {
+        console.error("Failed to create medicine request:", e);
+      }
     },
-    [],
+    [currentUser, currentRole, refreshFromDatabase],
   );
 
-  const respondToRequest = useCallback((id: string, status: PharmacyRequestStatus) => {
-    setRequests((prev) =>
-      prev.map((r) => {
-        if (r.id === id) {
-          return { ...r, status };
-        }
-        return r;
-      }),
-    );
-    const target = requests.find((r) => r.id === id);
-    if (target) {
-      if (status === "confirmed") {
-        setLastPatientNotification(`ABC Medical confirmed availability of ${target.medicine} ${target.strength}.`);
-      } else {
-        setLastPatientNotification(`ABC Medical could not confirm availability of ${target.medicine} ${target.strength}.`);
+  const respondToRequest = useCallback(
+    async (id: string, status: PharmacyRequestStatus) => {
+      try {
+        await fetch("/api/db/respond-medicine", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            request_id: id,
+            status: status === "confirmed" ? "AVAILABLE" : "NOT_AVAILABLE",
+            pharmacy_name: "ABC Medical",
+          }),
+        });
+        await refreshFromDatabase();
+      } catch (e) {
+        console.error("Failed to respond to request:", e);
       }
-    }
-  }, [requests]);
+    },
+    [refreshFromDatabase],
+  );
 
   const clearNotification = useCallback(() => {
     setLastPatientNotification(null);
@@ -526,31 +594,19 @@ export function CareProvider({ children }: { children: ReactNode }) {
   const resetAllDemoData = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
     setCurrentUser({
-      email: "patient@swasthya.com",
+      email: "patient@swasthya.demo",
       name: "Mrs. Sunita Sharma",
       role: "patient",
       codeOrReg: "SWS-P-8F42K91",
     });
     setIsAuthenticated(true);
     setCurrentRole("patient");
-    setDoctorVerification({
-      doctorName: "Dr. Amit Sharma",
-      council: "Maharashtra Medical Council",
-      regNumber: "MMC123456",
-      specialization: "General Medicine",
-      status: "VERIFIED",
-      verifiedAt: "26 Sep 2026",
-    });
-    setDoses(initialDoses);
-    setSupply(initialSupply);
-    setRequests(initialPharmacyRequests);
-    setAlerts(initialCaregiverAlerts);
-    setHasRepeatedMissed(false);
-    setLastPatientNotification(null);
-  }, []);
+    void refreshFromDatabase();
+  }, [refreshFromDatabase]);
 
+  // Deterministic Adherence Calculation from database schedules & logs
   const takenCount = doses.filter((d) => d.status === "taken").length;
-  const adherencePercent = Math.round((takenCount / doses.length) * 100);
+  const adherencePercent = doses.length > 0 ? Math.round((takenCount / doses.length) * 100) : 100;
 
   const value = useMemo<CareState>(
     () => ({
@@ -584,6 +640,7 @@ export function CareProvider({ children }: { children: ReactNode }) {
       clearNotification,
       alerts,
       resetAllDemoData,
+      refreshFromDatabase,
     }),
     [
       isAuthenticated,
@@ -614,6 +671,7 @@ export function CareProvider({ children }: { children: ReactNode }) {
       clearNotification,
       alerts,
       resetAllDemoData,
+      refreshFromDatabase,
     ],
   );
 

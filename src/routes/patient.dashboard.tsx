@@ -62,8 +62,16 @@ function PatientDashboard() {
 
   const next = doses.find((d) => d.status === "pending" || d.status === "snoozed") ?? doses[doses.length - 1]!;
 
+  const medicineHindiName = next.medicine.toLowerCase().includes("metformin")
+    ? "मेटफॉर्मिन"
+    : next.medicine.toLowerCase().includes("amlodipine")
+    ? "एम्लोडिपिन"
+    : next.medicine;
+
+  const strengthHindi = next.strength.replace(/mg/i, "मिलीग्राम");
+
   const hindiSpeechText =
-    "सुनीता जी, यह आपकी मेटफॉर्मिन 500 मिलीग्राम गोली लेने का समय है। कृपया रात के खाने के बाद एक गोली पानी के साथ लें।";
+    `सुनीता जी, यह आपकी ${medicineHindiName} ${strengthHindi} गोली लेने का समय है। कृपया रात के खाने के बाद एक गोली पानी के साथ लें।`;
   const englishSpeechText =
     `It is time to take your ${next.medicine} ${next.strength} tablet. Please take one tablet after dinner.`;
 
@@ -97,7 +105,7 @@ function PatientDashboard() {
     if (typeof window !== "undefined" && "Notification" in window) {
       const title = useHindi ? "दवा की याद दिलाना — स्वास्थ्य" : "Swasthya Medication Reminder";
       const body = useHindi
-        ? "मेटफॉर्मिन 500 मि.ग्रा. · रात के खाने के बाद 1 गोली"
+        ? `${medicineHindiName} ${strengthHindi} · रात के खाने के बाद 1 गोली`
         : `${next.medicine} ${next.strength} · 1 tablet after dinner`;
 
       if (Notification.permission === "granted") {

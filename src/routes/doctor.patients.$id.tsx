@@ -183,9 +183,15 @@ function DoctorPatientDetail() {
                     <div>
                       <div className="flex items-center gap-2">
                         <h4 className="font-bold text-navy">{rx.medicine} {rx.strength}</h4>
-                        <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                          ✓ DOCTOR VERIFIED
-                        </span>
+                        {rx.status === "SUPERSEDED" ? (
+                          <span className="text-[11px] font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded border border-amber-300">
+                            SUPERSEDED (History)
+                          </span>
+                        ) : (
+                          <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                            ✓ ACTIVE / DOCTOR VERIFIED
+                          </span>
+                        )}
                       </div>
                       <p className="text-xs text-muted-foreground mt-1">
                         Prescribed by {rx.doctorName} on {rx.date} · Duration: {rx.duration}

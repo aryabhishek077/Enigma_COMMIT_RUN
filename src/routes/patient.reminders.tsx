@@ -3,6 +3,7 @@ import { Bell, Volume2, ShieldCheck, Clock, CheckCircle2, Languages } from "luci
 import { DashboardShell, Panel } from "@/components/dashboard/DashboardShell";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useCare } from "@/lib/care-store";
 
 export const Route = createFileRoute("/patient/reminders")({
   head: () => ({
@@ -12,6 +13,12 @@ export const Route = createFileRoute("/patient/reminders")({
 });
 
 function PatientRemindersPage() {
+  const { doses } = useCare();
+  const metDose = doses.find((d) => d.medicine.toLowerCase().includes("metformin"));
+  const metStrength = metDose?.strength || "500 mg";
+  const metStrengthHindi = metStrength.replace(/mg/i, "मिलीग्राम");
+  const metHindiSpeech = `सुनीता जी, यह आपकी मेटफॉर्मिन ${metStrengthHindi} गोली लेने का समय है। कृपया रात के खाने के बाद एक गोली पानी के साथ लें।`;
+
   const speakReminder = (text: string, lang = "en-IN") => {
     if (typeof window === "undefined") return;
     try {
@@ -47,19 +54,14 @@ function PatientRemindersPage() {
                 <span className="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full uppercase">
                   रात की दवा (Evening Dose)
                 </span>
-                <h4 className="font-bold text-navy text-base mt-2">मेटफॉर्मिन 500 मिलीग्राम वॉइस अलर्ट</h4>
+                <h4 className="font-bold text-navy text-base mt-2">मेटफॉर्मिन {metStrengthHindi} वॉइस अलर्ट</h4>
                 <p className="text-xs text-emerald-950 mt-1 font-hindi">
-                  "सुनीता जी, यह आपकी मेटफॉर्मिन 500 मिलीग्राम गोली लेने का समय है। कृपया रात के खाने के बाद एक गोली पानी के साथ लें।"
+                  "{metHindiSpeech}"
                 </p>
               </div>
               <Button
                 className="bg-emerald-700 hover:bg-emerald-800 text-white font-bold shrink-0"
-                onClick={() =>
-                  speakReminder(
-                    "सुनीता जी, यह आपकी मेटफॉर्मिन 500 मिलीग्राम गोली लेने का समय है। कृपया रात के खाने के बाद एक गोली पानी के साथ लें।",
-                    "hi-IN",
-                  )
-                }
+                onClick={() => speakReminder(metHindiSpeech, "hi-IN")}
               >
                 <Languages className="size-4 mr-2" /> हिंदी में सुनें (Play Hindi)
               </Button>

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Search,
   MapPin,
@@ -25,10 +25,19 @@ export const Route = createFileRoute("/patient/find-medicine")({
 });
 
 function PatientFindMedicine() {
-  const { pharmaciesList, createPharmacyRequest, requests, setCurrentRole } = useCare();
+  const { pharmaciesList, createPharmacyRequest, requests, doses, setCurrentRole } = useCare();
+
+  const activeMetStrength = doses.find((d) => d.medicine.toLowerCase().includes("metformin"))?.strength || "500 mg";
 
   const [searchName, setSearchName] = useState("Metformin");
-  const [searchStrength, setSearchStrength] = useState("500 mg");
+  const [searchStrength, setSearchStrength] = useState(activeMetStrength);
+
+  // Sync if doctor updates strength in real-time
+  useEffect(() => {
+    if (activeMetStrength) {
+      setSearchStrength(activeMetStrength);
+    }
+  }, [activeMetStrength]);
   const [searchForm, setSearchForm] = useState("Tablet");
   const [requestedPharmacies, setRequestedPharmacies] = useState<Record<string, boolean>>({});
 

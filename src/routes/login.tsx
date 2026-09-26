@@ -26,7 +26,7 @@ export const DEMO_CREDENTIALS = [
   {
     role: "doctor" as Role,
     roleTitle: "Doctor",
-    id: "doctor@swasthya.com",
+    id: "doctor@swasthya.demo",
     password: "doctor123",
     name: "Dr. Amit Sharma",
     subtitle: "General Medicine · MMC123456",
@@ -39,7 +39,7 @@ export const DEMO_CREDENTIALS = [
   {
     role: "patient" as Role,
     roleTitle: "Patient",
-    id: "patient@swasthya.com",
+    id: "patient@swasthya.demo",
     password: "patient123",
     name: "Mrs. Sunita Sharma",
     subtitle: "Code: SWS-P-8F42K91 · Pune",
@@ -52,7 +52,7 @@ export const DEMO_CREDENTIALS = [
   {
     role: "caregiver" as Role,
     roleTitle: "Caretaker / Caregiver",
-    id: "caretaker@swasthya.com",
+    id: "caregiver@swasthya.demo",
     password: "caretaker123",
     name: "Rahul Sharma",
     subtitle: "Son · Bengaluru (Remote Oversight)",
@@ -65,7 +65,7 @@ export const DEMO_CREDENTIALS = [
   {
     role: "pharmacy" as Role,
     roleTitle: "Medical / Pharmacy",
-    id: "medical@swasthya.com",
+    id: "pharmacy@swasthya.demo",
     password: "medical123",
     name: "ABC Medical",
     subtitle: "Kothrud, Pune · Connected Digital Chemist",

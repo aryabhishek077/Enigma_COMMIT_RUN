@@ -44,9 +44,23 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+import { handleApiRequest } from "./server/api-handler";
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
+      const url = new URL(request.url);
+      if (url.pathname.startsWith("/api/db")) {
+        const bodyText = request.method !== "GET" && request.method !== "HEAD" ? await request.text() : undefined;
+        const apiRes = await handleApiRequest(url.pathname, request.method, bodyText);
+        if (apiRes) {
+          return new Response(apiRes.body, {
+            status: apiRes.status,
+            headers: apiRes.headers,
+          });
+        }
+      }
+
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       return await normalizeCatastrophicSsrResponse(response);
