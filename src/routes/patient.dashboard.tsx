@@ -20,6 +20,7 @@ import { DashboardShell, Panel } from "@/components/dashboard/DashboardShell";
 import { ProgressRing, SoundWave } from "@/components/care/visuals";
 import { SupplyCard } from "@/components/care/SupplyCard";
 import { WeeklyDosesChart } from "@/components/care/charts";
+import { JudgePresentationBar } from "@/components/dashboard/JudgePresentationBar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -173,55 +174,8 @@ function PatientDashboard() {
       }
     >
       <div className="space-y-6">
-        {/* Hackathon Judge Simulation Toolbar */}
-        <div className="p-4 rounded-2xl bg-slate-900 text-white flex flex-col sm:flex-row items-center justify-between gap-3 text-xs shadow-md">
-          <div className="flex items-center gap-2">
-            <Sparkles className="size-4 text-primary" />
-            <span>
-              <strong>Judge Presentation Shortcuts:</strong> Test Voice Reminders in English or Hindi, or simulate repeated missed doses.
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto">
-            <Button
-              size="sm"
-              variant="outline"
-              className="bg-slate-800 text-white border-slate-700 hover:bg-slate-700 shrink-0"
-              onClick={() => {
-                setIsHindi(false);
-                handleTestReminder(false);
-              }}
-            >
-              <Volume2 className="size-3.5 mr-1" /> English Reminder
-            </Button>
-
-            <Button
-              size="sm"
-              variant="outline"
-              className="bg-emerald-700 hover:bg-emerald-800 text-white border-transparent shrink-0"
-              onClick={() => {
-                setIsHindi(true);
-                handleTestReminder(true);
-              }}
-            >
-              <Languages className="size-3.5 mr-1" /> हिंदी वॉइस अलर्ट
-            </Button>
-
-            <Button
-              size="sm"
-              variant="outline"
-              className="bg-amber-600 hover:bg-amber-700 text-white border-transparent shrink-0"
-              onClick={() => {
-                simulateRepeatedMissed();
-                toast.warning("Missed doses simulated", {
-                  description: "Caregiver alert triggered! Switch to Caregiver Portal to view.",
-                });
-              }}
-            >
-              <AlertTriangle className="size-3.5 mr-1" /> Simulate Missed Doses
-            </Button>
-          </div>
-        </div>
+        {/* Hackathon Judge Simulation & Presentation Toolbar */}
+        <JudgePresentationBar />
 
         {/* HERO: NEXT MEDICATION - ACCESSIBLE ELDERLY UI */}
         <div className="grid gap-6 xl:grid-cols-[1.15fr_1fr]">

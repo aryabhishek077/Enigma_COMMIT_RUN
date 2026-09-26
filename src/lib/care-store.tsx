@@ -591,8 +591,13 @@ export function CareProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // Reset demo
-  const resetAllDemoData = useCallback(() => {
+  const resetAllDemoData = useCallback(async () => {
     localStorage.removeItem(STORAGE_KEY);
+    try {
+      await fetch("/api/db/reset-seed", { method: "POST" });
+    } catch {
+      // ignore
+    }
     setCurrentUser({
       email: "patient@swasthya.demo",
       name: "Mrs. Sunita Sharma",
@@ -601,7 +606,7 @@ export function CareProvider({ children }: { children: ReactNode }) {
     });
     setIsAuthenticated(true);
     setCurrentRole("patient");
-    void refreshFromDatabase();
+    await refreshFromDatabase();
   }, [refreshFromDatabase]);
 
   // Deterministic Adherence Calculation from database schedules & logs

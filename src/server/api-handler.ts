@@ -83,6 +83,15 @@ export async function handleApiRequest(
       };
     }
 
+    if (pathname === "/api/db/reset-seed" && method === "POST") {
+      const state = sharedDatabase.resetSeed();
+      return {
+        status: 200,
+        headers,
+        body: JSON.stringify({ success: true, state }),
+      };
+    }
+
     return {
       status: 404,
       headers,

@@ -335,6 +335,13 @@ class DatabaseManager {
     return this.state;
   }
 
+  public resetSeed(): DatabaseState {
+    const seed = getInitialDatabaseState();
+    this.state = seed;
+    this.saveToDisk(seed);
+    return seed;
+  }
+
   /**
    * TEST 1 & TEST 4: Doctor creates or updates prescription
    * Supersedes old active prescriptions for the same medicine and creates new active prescription

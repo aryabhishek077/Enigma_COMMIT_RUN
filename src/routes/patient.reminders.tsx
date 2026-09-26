@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Bell, Volume2, ShieldCheck, Clock, CheckCircle2, Languages } from "lucide-react";
 import { DashboardShell, Panel } from "@/components/dashboard/DashboardShell";
+import { JudgePresentationBar } from "@/components/dashboard/JudgePresentationBar";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useCare } from "@/lib/care-store";
@@ -44,6 +45,8 @@ function PatientRemindersPage() {
       badge="Bilingual Voice Enabled"
     >
       <div className="space-y-6 max-w-5xl">
+        <JudgePresentationBar />
+
         <Panel
           title="Hindi Prescription Spoken Alerts (हिंदी वॉइस अलर्ट)"
           description="High-clarity native Hindi voice prompts synthesized specifically for elderly regional patients"
