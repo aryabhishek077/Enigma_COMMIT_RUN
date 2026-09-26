@@ -238,6 +238,8 @@ export function CareProvider({ children }: { children: ReactNode }) {
         if (parsed.doses) setDoses(parsed.doses);
         if (parsed.supply) setSupply(parsed.supply);
         if (parsed.requests) setRequests(parsed.requests);
+        if (parsed.alerts) setAlerts(parsed.alerts);
+        if (parsed.lastPatientNotification) setLastPatientNotification(parsed.lastPatientNotification);
         if (parsed.hasRepeatedMissed !== undefined) setHasRepeatedMissed(parsed.hasRepeatedMissed);
         if (parsed.currentRole) setCurrentRole(parsed.currentRole);
         if (parsed.currentUser) setCurrentUser(parsed.currentUser);
@@ -246,6 +248,26 @@ export function CareProvider({ children }: { children: ReactNode }) {
     } catch (e) {
       console.warn("Could not parse saved care state", e);
     }
+
+    // Cross-tab real-time synchronization
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          if (parsed.prescriptions) setPrescriptions(parsed.prescriptions);
+          if (parsed.doses) setDoses(parsed.doses);
+          if (parsed.supply) setSupply(parsed.supply);
+          if (parsed.requests) setRequests(parsed.requests);
+          if (parsed.alerts) setAlerts(parsed.alerts);
+          if (parsed.lastPatientNotification) setLastPatientNotification(parsed.lastPatientNotification);
+          if (parsed.hasRepeatedMissed !== undefined) setHasRepeatedMissed(parsed.hasRepeatedMissed);
+        } catch {
+          // ignore
+        }
+      }
+    };
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
   // Save changes to localStorage
@@ -260,6 +282,8 @@ export function CareProvider({ children }: { children: ReactNode }) {
           doses,
           supply,
           requests,
+          alerts,
+          lastPatientNotification,
           hasRepeatedMissed,
           currentRole,
           currentUser,
@@ -276,6 +300,8 @@ export function CareProvider({ children }: { children: ReactNode }) {
     doses,
     supply,
     requests,
+    alerts,
+    lastPatientNotification,
     hasRepeatedMissed,
     currentRole,
     currentUser,
@@ -394,7 +420,65 @@ export function CareProvider({ children }: { children: ReactNode }) {
       ...rx,
       id: "rx-" + Date.now(),
     };
+    // 1. Add to prescriptions list
     setPrescriptions((prev) => [newRx, ...prev]);
+
+    // 2. Dispatch real-time notification to patient
+    setLastPatientNotification(
+      `New Prescription Verified: Dr. Amit Sharma has added ${rx.medicine} ${rx.strength} (${rx.frequency}) to your daily medication plan.`,
+    );
+
+    // 3. Immediately dispatch an audit alert to Caretaker Rahul Sharma's Alert Center
+    setAlerts((prev) => [
+      {
+        id: "alert-rx-" + Date.now(),
+        tone: "info",
+        title: `Doctor updated medication plan: ${rx.medicine} ${rx.strength}`,
+        detail: `Dr. Amit Sharma (MMC123456) verified a new prescription for Sunita Sharma: ${rx.dose}, ${rx.frequency}, ${rx.instructions}.`,
+        time: "Just now",
+      },
+      ...prev,
+    ]);
+
+    // 4. Ensure dose schedule is updated for patient Sunita Sharma
+    setDoses((prev) => {
+      const exists = prev.some((d) => d.medicine.toLowerCase() === rx.medicine.toLowerCase());
+      if (!exists) {
+        return [
+          ...prev,
+          {
+            id: "dose-" + Date.now(),
+            time: "08:00 PM",
+            label: "Evening",
+            medicine: rx.medicine,
+            strength: rx.strength,
+            amount: rx.dose || "1 tablet",
+            instruction: rx.instructions || "After meals",
+            status: "pending" as DoseStatus,
+          },
+        ];
+      }
+      return prev;
+    });
+
+    // 5. Ensure supply tracking is updated
+    setSupply((prev) => {
+      const exists = prev.some((s) => s.medicine.toLowerCase() === rx.medicine.toLowerCase());
+      if (!exists) {
+        return [
+          ...prev,
+          {
+            id: "supply-" + Date.now(),
+            medicine: rx.medicine,
+            strength: rx.strength,
+            tabletsLeft: 30,
+            tabletsTotal: 30,
+            daysRemaining: 15,
+          },
+        ];
+      }
+      return prev;
+    });
   }, []);
 
   // Pharmacy Requests

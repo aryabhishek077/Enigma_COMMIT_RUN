@@ -44,6 +44,32 @@ function CaregiverDashboard() {
       badge="Authorized Oversight"
     >
       <div className="space-y-6 max-w-5xl">
+        {/* Doctor Prescription Update Banner (if recent) */}
+        {alerts.find((a) => a.tone === "info") && (
+          <div className="p-5 rounded-2xl bg-sky-50 border-2 border-sky-300 text-sky-950 flex flex-col sm:flex-row items-start justify-between gap-4 shadow-sm animate-fade-in">
+            <div className="flex items-start gap-3">
+              <div className="size-10 rounded-xl bg-sky-200 text-sky-900 flex items-center justify-center shrink-0 mt-0.5">
+                <ShieldCheck className="size-5" />
+              </div>
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-sky-200 text-sky-900">
+                  Doctor Order Synced · Real-Time
+                </span>
+                <h3 className="font-extrabold text-navy text-base mt-1.5">
+                  {alerts.find((a) => a.tone === "info")?.title}
+                </h3>
+                <p className="text-xs text-sky-900 mt-1 leading-relaxed">
+                  {alerts.find((a) => a.tone === "info")?.detail}
+                </p>
+              </div>
+            </div>
+
+            <Button asChild size="sm" variant="hero" className="shrink-0">
+              <Link to="/caregiver/medications">VIEW REGIMEN</Link>
+            </Button>
+          </div>
+        )}
+
         {/* Meaningful Alert Banner */}
         <div className="p-5 rounded-2xl bg-amber-50 border border-amber-300 text-amber-950 flex flex-col sm:flex-row items-start justify-between gap-4 shadow-sm">
           <div className="flex items-start gap-3">
