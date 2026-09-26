@@ -1,12 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { Menu } from "lucide-react";
+import { Menu, Sparkles } from "lucide-react";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const links = [
   { label: "Journey", to: "/#journey" },
-  { label: "Patient care", to: "/#patient" },
+  { label: "AI Prescription", to: "/#ai-prescription" },
+  { label: "Patient Care", to: "/#patient" },
   { label: "Caregivers", to: "/#caregiver" },
   { label: "Pharmacies", to: "/#pharmacy" },
 ];
@@ -30,11 +31,13 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button asChild variant="ghost" className="hidden sm:inline-flex">
-            <Link to="/app/patient">Open demo</Link>
+          <Button asChild variant="ghost" className="hidden sm:inline-flex text-xs font-bold">
+            <Link to="/login">Select Role</Link>
           </Button>
-          <Button asChild variant="hero">
-            <Link to="/app/doctor">Explore Swasthya</Link>
+          <Button asChild variant="hero" className="font-bold">
+            <Link to="/login">
+              <Sparkles className="size-4 mr-1.5" /> TRY DEMO
+            </Link>
           </Button>
 
           <Sheet>
@@ -44,19 +47,21 @@ export function SiteHeader() {
               </Button>
             </SheetTrigger>
             <SheetContent side="right" className="w-72">
-              <div className="mt-8 flex flex-col gap-1">
+              <div className="mt-8 flex flex-col gap-2">
                 {links.map((l) => (
                   <a
                     key={l.label}
                     href={l.to}
-                    className="rounded-lg px-3 py-3 text-base font-medium text-navy hover:bg-accent"
+                    className="rounded-lg px-3 py-2.5 text-sm font-medium text-navy hover:bg-accent"
                   >
                     {l.label}
                   </a>
                 ))}
-                <Link to="/app/patient" className="rounded-lg px-3 py-3 text-base font-semibold text-primary hover:bg-accent">
-                  Open the demo
-                </Link>
+                <div className="pt-4 border-t border-border mt-2">
+                  <Button asChild variant="hero" className="w-full">
+                    <Link to="/login">TRY DEMO</Link>
+                  </Button>
+                </div>
               </div>
             </SheetContent>
           </Sheet>

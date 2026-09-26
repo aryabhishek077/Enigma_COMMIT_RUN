@@ -7,34 +7,60 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
+  Pill,
   Search,
   Settings,
   ShieldCheck,
   Store,
   Stethoscope,
   User,
+  UserCheck,
   UserCog,
+  X,
 } from "lucide-react";
 import type { ReactNode } from "react";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useCare, type Role } from "@/lib/care-store";
 import { cn } from "@/lib/utils";
 
-type NavItem = { label: string; to: LinkProps["to"]; icon: typeof LayoutDashboard };
+type NavItem = { label: string; to: string; icon: typeof LayoutDashboard };
 
-const roleNav: NavItem[] = [
-  { label: "Patient", to: "/app/patient", icon: User },
-  { label: "Doctor", to: "/app/doctor", icon: Stethoscope },
-  { label: "Caregiver", to: "/app/caregiver", icon: HeartHandshake },
-  { label: "Pharmacy", to: "/app/pharmacy", icon: Store },
-  { label: "Admin", to: "/app/admin", icon: UserCog },
+const roleNav: { role: Role; label: string; to: string; icon: typeof LayoutDashboard }[] = [
+  { role: "patient", label: "Patient View", to: "/patient/dashboard", icon: User },
+  { role: "doctor", label: "Doctor Portal", to: "/doctor/dashboard", icon: Stethoscope },
+  { role: "caregiver", label: "Caregiver Portal", to: "/caregiver/dashboard", icon: HeartHandshake },
+  { role: "pharmacy", label: "Pharmacy Ops", to: "/pharmacy/dashboard", icon: Store },
+  { role: "admin", label: "Admin Verify", to: "/admin/dashboard", icon: UserCog },
 ];
 
-const workNav: NavItem[] = [
-  { label: "Prescriptions", to: "/app/prescriptions", icon: ClipboardList },
-  { label: "Adherence", to: "/app/adherence", icon: Activity },
-  { label: "Find medicine", to: "/app/find-medicine", icon: Search },
+const patientWorkflowNav: NavItem[] = [
+  { label: "My Schedule", to: "/patient/dashboard", icon: Activity },
+  { label: "Medications", to: "/patient/medications", icon: Pill },
+  { label: "Prescriptions", to: "/patient/prescriptions", icon: ClipboardList },
+  { label: "Adherence Record", to: "/patient/adherence", icon: Activity },
+  { label: "Find Medicine", to: "/patient/find-medicine", icon: Search },
+  { label: "Caregiver Link", to: "/patient/caregiver", icon: HeartHandshake },
+];
+
+const doctorWorkflowNav: NavItem[] = [
+  { label: "Overview", to: "/doctor/dashboard", icon: LayoutDashboard },
+  { label: "Patients", to: "/doctor/patients", icon: UserCheck },
+  { label: "Upload & Verify Rx", to: "/doctor/prescriptions", icon: ClipboardList },
+  { label: "Adherence Analytics", to: "/doctor/adherence", icon: Activity },
+];
+
+const caregiverWorkflowNav: NavItem[] = [
+  { label: "Status & Care", to: "/caregiver/dashboard", icon: HeartHandshake },
+  { label: "Medications", to: "/caregiver/medications", icon: Pill },
+  { label: "Alerts Center", to: "/caregiver/alerts", icon: Bell },
+];
+
+const pharmacyWorkflowNav: NavItem[] = [
+  { label: "Requests Queue", to: "/pharmacy/dashboard", icon: Store },
+  { label: "Inventory", to: "/pharmacy/inventory", icon: Pill },
+  { label: "Past Requests", to: "/pharmacy/requests", icon: ClipboardList },
 ];
 
 function NavList({ items, onNavigate }: { items: NavItem[]; onNavigate?: (() => void) | undefined }) {
@@ -42,11 +68,11 @@ function NavList({ items, onNavigate }: { items: NavItem[]; onNavigate?: (() => 
   return (
     <ul className="space-y-1">
       {items.map((item) => {
-        const active = pathname === item.to;
+        const active = pathname === item.to || pathname.startsWith(item.to + "/");
         return (
           <li key={item.label}>
             <Link
-              to={item.to}
+              to={item.to as any}
               onClick={onNavigate}
               className={cn(
                 "flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold transition-all duration-200",
@@ -66,40 +92,94 @@ function NavList({ items, onNavigate }: { items: NavItem[]; onNavigate?: (() => 
   );
 }
 
-function SidebarBody({ onNavigate }: { onNavigate?: (() => void) | undefined }) {
+function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
+  const { currentRole, setCurrentRole } = useCare();
+
+  const roleProfiles: Record<Role, { name: string; tag: string; initials: string }> = {
+    patient: { name: "Sunita Sharma", tag: "ID: SWS-P-8F42K91", initials: "SS" },
+    doctor: { name: "Dr. Amit Sharma", tag: "General Medicine", initials: "AS" },
+    caregiver: { name: "Rahul Sharma", tag: "Caregiver (Son)", initials: "RS" },
+    pharmacy: { name: "ABC Medical", tag: "Connected Chemist", initials: "AM" },
+    admin: { name: "Swasthya Admin", tag: "Prototype Verifier", initials: "AD" },
+  };
+
+  const activeProfile = roleProfiles[currentRole] || roleProfiles.patient;
+
   return (
-    <div className="flex h-full flex-col gap-7 p-5">
+    <div className="flex h-full flex-col gap-6 p-5 overflow-y-auto">
       <Logo />
 
+      {/* Role Switcher */}
       <nav aria-label="Roles">
-        <p className="px-3.5 pb-2 text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Roles</p>
-        <NavList items={roleNav} onNavigate={onNavigate} />
+        <p className="px-3.5 pb-2 text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground">
+          Demo Roles
+        </p>
+        <div className="grid grid-cols-1 gap-1">
+          {roleNav.map((r) => {
+            const isCurrent = currentRole === r.role;
+            return (
+              <Link
+                key={r.role}
+                to={r.to}
+                onClick={() => {
+                  setCurrentRole(r.role);
+                  onNavigate?.();
+                }}
+                className={cn(
+                  "flex items-center justify-between rounded-xl px-3.5 py-2 text-xs font-semibold transition-all",
+                  isCurrent
+                    ? "bg-primary/10 text-primary font-bold border border-primary/30"
+                    : "text-muted-foreground hover:bg-sidebar-accent hover:text-foreground",
+                )}
+              >
+                <span className="flex items-center gap-2">
+                  <r.icon className="size-4" />
+                  {r.label}
+                </span>
+                {isCurrent && (
+                  <span className="size-1.5 rounded-full bg-primary" />
+                )}
+              </Link>
+            );
+          })}
+        </div>
       </nav>
 
+      {/* Contextual Navigation based on Active Role */}
       <nav aria-label="Workflows">
-        <p className="px-3.5 pb-2 text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground">Workflows</p>
-        <NavList items={workNav} onNavigate={onNavigate} />
+        <p className="px-3.5 pb-2 text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground">
+          {currentRole.toUpperCase()} PORTAL
+        </p>
+        {currentRole === "patient" && <NavList items={patientWorkflowNav} onNavigate={onNavigate} />}
+        {currentRole === "doctor" && <NavList items={doctorWorkflowNav} onNavigate={onNavigate} />}
+        {currentRole === "caregiver" && <NavList items={caregiverWorkflowNav} onNavigate={onNavigate} />}
+        {currentRole === "pharmacy" && <NavList items={pharmacyWorkflowNav} onNavigate={onNavigate} />}
+        {currentRole === "admin" && (
+          <NavList
+            items={[
+              { label: "Doctor Verification", to: "/admin/dashboard", icon: UserCheck },
+            ]}
+            onNavigate={onNavigate}
+          />
+        )}
       </nav>
 
-      <div className="mt-auto space-y-1 border-t border-sidebar-border pt-4">
-        <div className="flex items-center gap-3 rounded-xl px-3 py-2.5">
-          <span className="inline-flex size-9 items-center justify-center rounded-full bg-primary-soft font-display text-sm font-bold text-primary">
-            SS
+      <div className="mt-auto space-y-2 border-t border-sidebar-border pt-4">
+        <div className="flex items-center gap-3 rounded-xl px-3 py-2 bg-card border border-border">
+          <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-primary-soft font-display text-sm font-bold text-primary">
+            {activeProfile.initials}
           </span>
           <span className="min-w-0">
-            <span className="block truncate text-sm font-bold text-navy">Sunita Sharma</span>
-            <span className="block text-xs text-muted-foreground">Demo profile</span>
+            <span className="block truncate text-sm font-bold text-navy">{activeProfile.name}</span>
+            <span className="block text-xs text-muted-foreground truncate">{activeProfile.tag}</span>
           </span>
         </div>
-        <button className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
-          <Settings className="size-4.5" /> Settings
-        </button>
         <Link
           to="/"
           onClick={onNavigate}
-          className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+          className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
         >
-          <LogOut className="size-4.5" /> Exit demo
+          <LogOut className="size-4" /> Home / Landing
         </Link>
       </div>
     </div>
@@ -119,6 +199,8 @@ export function DashboardShell({
   actions?: ReactNode;
   children: ReactNode;
 }) {
+  const { currentRole, setCurrentRole, lastPatientNotification, clearNotification } = useCare();
+
   return (
     <div className="min-h-screen bg-background lg:grid lg:grid-cols-[17rem_1fr]">
       <aside className="sticky top-0 hidden h-screen border-r border-sidebar-border bg-sidebar lg:block">
@@ -126,6 +208,66 @@ export function DashboardShell({
       </aside>
 
       <div className="flex min-w-0 flex-col">
+        {/* Top Announcement / Quick Switcher Bar */}
+        <div className="bg-slate-900 text-white px-4 py-2 text-xs flex flex-wrap items-center justify-between gap-2 border-b border-slate-800">
+          <div className="flex items-center gap-2">
+            <span className="rounded bg-primary px-1.5 py-0.5 font-bold uppercase tracking-wider text-[10px]">
+              Demo Mode
+            </span>
+            <span className="text-slate-300 hidden sm:inline">
+              Testing as <strong className="text-white capitalize">{currentRole}</strong>
+            </span>
+          </div>
+
+          <div className="flex items-center gap-1.5 overflow-x-auto">
+            <span className="text-slate-400 text-[11px] mr-1 hidden md:inline">Quick Switch:</span>
+            {(["admin", "doctor", "patient", "caregiver", "pharmacy"] as Role[]).map((r) => (
+              <Link
+                key={r}
+                to={
+                  r === "admin"
+                    ? "/admin/dashboard"
+                    : r === "doctor"
+                    ? "/doctor/dashboard"
+                    : r === "patient"
+                    ? "/patient/dashboard"
+                    : r === "caregiver"
+                    ? "/caregiver/dashboard"
+                    : "/pharmacy/dashboard"
+                }
+                onClick={() => setCurrentRole(r)}
+                className={cn(
+                  "px-2.5 py-1 rounded text-[11px] font-medium transition capitalize",
+                  currentRole === r
+                    ? "bg-primary text-white font-bold"
+                    : "bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white",
+                )}
+              >
+                {r}
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Real-time Notification Banner */}
+        {lastPatientNotification && (
+          <div className="bg-emerald-50 border-b border-emerald-200 text-emerald-900 px-4 py-2.5 text-xs flex items-center justify-between animate-fade-in">
+            <div className="flex items-center gap-2">
+              <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>
+                <strong>System Notification:</strong> {lastPatientNotification}
+              </span>
+            </div>
+            <button
+              onClick={clearNotification}
+              className="text-emerald-700 hover:text-emerald-950 p-1"
+              aria-label="Dismiss notification"
+            >
+              <X className="size-3.5" />
+            </button>
+          </div>
+        )}
+
         <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur-xl">
           <div className="flex items-center gap-3 px-4 py-3.5 lg:px-8">
             <Sheet>
@@ -155,7 +297,7 @@ export function DashboardShell({
               {actions}
               <Button variant="outline" size="icon" aria-label="Notifications" className="relative">
                 <Bell />
-                <span className="absolute right-2 top-2 size-2 rounded-full bg-destructive" />
+                <span className="absolute right-2 top-2 size-2 rounded-full bg-primary" />
               </Button>
             </div>
           </div>

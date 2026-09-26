@@ -11,8 +11,36 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteImport } from './routes/app'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppAdherenceRouteImport } from './routes/app.adherence'
+import { Route as AppAdminRouteImport } from './routes/app.admin'
+import { Route as AppCaregiverRouteImport } from './routes/app.caregiver'
+import { Route as AppDoctorRouteImport } from './routes/app.doctor'
+import { Route as AppFindMedicineRouteImport } from './routes/app.find-medicine'
 import { Route as AppPatientRouteImport } from './routes/app.patient'
+import { Route as AppPharmacyRouteImport } from './routes/app.pharmacy'
+import { Route as AppPrescriptionsRouteImport } from './routes/app.prescriptions'
+import { Route as CaregiverAlertsRouteImport } from './routes/caregiver.alerts'
+import { Route as CaregiverDashboardRouteImport } from './routes/caregiver.dashboard'
+import { Route as CaregiverMedicationsRouteImport } from './routes/caregiver.medications'
+import { Route as DoctorAdherenceRouteImport } from './routes/doctor.adherence'
+import { Route as DoctorDashboardRouteImport } from './routes/doctor.dashboard'
+import { Route as DoctorPrescriptionsRouteImport } from './routes/doctor.prescriptions'
+import { Route as PatientAdherenceRouteImport } from './routes/patient.adherence'
+import { Route as PatientCaregiverRouteImport } from './routes/patient.caregiver'
+import { Route as PatientDashboardRouteImport } from './routes/patient.dashboard'
+import { Route as PatientFindMedicineRouteImport } from './routes/patient.find-medicine'
+import { Route as PatientMedicationsRouteImport } from './routes/patient.medications'
+import { Route as PatientPrescriptionsRouteImport } from './routes/patient.prescriptions'
+import { Route as PatientRemindersRouteImport } from './routes/patient.reminders'
+import { Route as PharmacyDashboardRouteImport } from './routes/pharmacy.dashboard'
+import { Route as PharmacyInventoryRouteImport } from './routes/pharmacy.inventory'
+import { Route as PharmacyRequestsRouteImport } from './routes/pharmacy.requests'
+import { Route as DoctorPatientsIndexRouteImport } from './routes/doctor.patients.index'
+import { Route as DoctorPatientsIdRouteImport } from './routes/doctor.patients.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -24,9 +52,49 @@ const AppRoute = AppRouteImport.update({
   path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdherenceRoute = AppAdherenceRouteImport.update({
+  id: '/adherence',
+  path: '/adherence',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminRoute = AppAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCaregiverRoute = AppCaregiverRouteImport.update({
+  id: '/caregiver',
+  path: '/caregiver',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDoctorRoute = AppDoctorRouteImport.update({
+  id: '/doctor',
+  path: '/doctor',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppFindMedicineRoute = AppFindMedicineRouteImport.update({
+  id: '/find-medicine',
+  path: '/find-medicine',
   getParentRoute: () => AppRoute,
 } as any)
 const AppPatientRoute = AppPatientRouteImport.update({
@@ -34,36 +102,337 @@ const AppPatientRoute = AppPatientRouteImport.update({
   path: '/patient',
   getParentRoute: () => AppRoute,
 } as any)
+const AppPharmacyRoute = AppPharmacyRouteImport.update({
+  id: '/pharmacy',
+  path: '/pharmacy',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppPrescriptionsRoute = AppPrescriptionsRouteImport.update({
+  id: '/prescriptions',
+  path: '/prescriptions',
+  getParentRoute: () => AppRoute,
+} as any)
+const CaregiverAlertsRoute = CaregiverAlertsRouteImport.update({
+  id: '/caregiver/alerts',
+  path: '/caregiver/alerts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaregiverDashboardRoute = CaregiverDashboardRouteImport.update({
+  id: '/caregiver/dashboard',
+  path: '/caregiver/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaregiverMedicationsRoute = CaregiverMedicationsRouteImport.update({
+  id: '/caregiver/medications',
+  path: '/caregiver/medications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoctorAdherenceRoute = DoctorAdherenceRouteImport.update({
+  id: '/doctor/adherence',
+  path: '/doctor/adherence',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoctorDashboardRoute = DoctorDashboardRouteImport.update({
+  id: '/doctor/dashboard',
+  path: '/doctor/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoctorPrescriptionsRoute = DoctorPrescriptionsRouteImport.update({
+  id: '/doctor/prescriptions',
+  path: '/doctor/prescriptions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PatientAdherenceRoute = PatientAdherenceRouteImport.update({
+  id: '/patient/adherence',
+  path: '/patient/adherence',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PatientCaregiverRoute = PatientCaregiverRouteImport.update({
+  id: '/patient/caregiver',
+  path: '/patient/caregiver',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PatientDashboardRoute = PatientDashboardRouteImport.update({
+  id: '/patient/dashboard',
+  path: '/patient/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PatientFindMedicineRoute = PatientFindMedicineRouteImport.update({
+  id: '/patient/find-medicine',
+  path: '/patient/find-medicine',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PatientMedicationsRoute = PatientMedicationsRouteImport.update({
+  id: '/patient/medications',
+  path: '/patient/medications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PatientPrescriptionsRoute = PatientPrescriptionsRouteImport.update({
+  id: '/patient/prescriptions',
+  path: '/patient/prescriptions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PatientRemindersRoute = PatientRemindersRouteImport.update({
+  id: '/patient/reminders',
+  path: '/patient/reminders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PharmacyDashboardRoute = PharmacyDashboardRouteImport.update({
+  id: '/pharmacy/dashboard',
+  path: '/pharmacy/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PharmacyInventoryRoute = PharmacyInventoryRouteImport.update({
+  id: '/pharmacy/inventory',
+  path: '/pharmacy/inventory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PharmacyRequestsRoute = PharmacyRequestsRouteImport.update({
+  id: '/pharmacy/requests',
+  path: '/pharmacy/requests',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoctorPatientsIndexRoute = DoctorPatientsIndexRouteImport.update({
+  id: '/doctor/patients/',
+  path: '/doctor/patients/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DoctorPatientsIdRoute = DoctorPatientsIdRouteImport.update({
+  id: '/doctor/patients/$id',
+  path: '/doctor/patients/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/app/adherence': typeof AppAdherenceRoute
+  '/app/admin': typeof AppAdminRoute
+  '/app/caregiver': typeof AppCaregiverRoute
+  '/app/doctor': typeof AppDoctorRoute
+  '/app/find-medicine': typeof AppFindMedicineRoute
   '/app/patient': typeof AppPatientRoute
+  '/app/pharmacy': typeof AppPharmacyRoute
+  '/app/prescriptions': typeof AppPrescriptionsRoute
+  '/caregiver/alerts': typeof CaregiverAlertsRoute
+  '/caregiver/dashboard': typeof CaregiverDashboardRoute
+  '/caregiver/medications': typeof CaregiverMedicationsRoute
+  '/doctor/adherence': typeof DoctorAdherenceRoute
+  '/doctor/dashboard': typeof DoctorDashboardRoute
+  '/doctor/prescriptions': typeof DoctorPrescriptionsRoute
+  '/patient/adherence': typeof PatientAdherenceRoute
+  '/patient/caregiver': typeof PatientCaregiverRoute
+  '/patient/dashboard': typeof PatientDashboardRoute
+  '/patient/find-medicine': typeof PatientFindMedicineRoute
+  '/patient/medications': typeof PatientMedicationsRoute
+  '/patient/prescriptions': typeof PatientPrescriptionsRoute
+  '/patient/reminders': typeof PatientRemindersRoute
+  '/pharmacy/dashboard': typeof PharmacyDashboardRoute
+  '/pharmacy/inventory': typeof PharmacyInventoryRoute
+  '/pharmacy/requests': typeof PharmacyRequestsRoute
   '/app/': typeof AppIndexRoute
+  '/doctor/patients/$id': typeof DoctorPatientsIdRoute
+  '/doctor/patients/': typeof DoctorPatientsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/app/adherence': typeof AppAdherenceRoute
+  '/app/admin': typeof AppAdminRoute
+  '/app/caregiver': typeof AppCaregiverRoute
+  '/app/doctor': typeof AppDoctorRoute
+  '/app/find-medicine': typeof AppFindMedicineRoute
   '/app/patient': typeof AppPatientRoute
+  '/app/pharmacy': typeof AppPharmacyRoute
+  '/app/prescriptions': typeof AppPrescriptionsRoute
+  '/caregiver/alerts': typeof CaregiverAlertsRoute
+  '/caregiver/dashboard': typeof CaregiverDashboardRoute
+  '/caregiver/medications': typeof CaregiverMedicationsRoute
+  '/doctor/adherence': typeof DoctorAdherenceRoute
+  '/doctor/dashboard': typeof DoctorDashboardRoute
+  '/doctor/prescriptions': typeof DoctorPrescriptionsRoute
+  '/patient/adherence': typeof PatientAdherenceRoute
+  '/patient/caregiver': typeof PatientCaregiverRoute
+  '/patient/dashboard': typeof PatientDashboardRoute
+  '/patient/find-medicine': typeof PatientFindMedicineRoute
+  '/patient/medications': typeof PatientMedicationsRoute
+  '/patient/prescriptions': typeof PatientPrescriptionsRoute
+  '/patient/reminders': typeof PatientRemindersRoute
+  '/pharmacy/dashboard': typeof PharmacyDashboardRoute
+  '/pharmacy/inventory': typeof PharmacyInventoryRoute
+  '/pharmacy/requests': typeof PharmacyRequestsRoute
   '/app': typeof AppIndexRoute
+  '/doctor/patients/$id': typeof DoctorPatientsIdRoute
+  '/doctor/patients': typeof DoctorPatientsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
+  '/app/adherence': typeof AppAdherenceRoute
+  '/app/admin': typeof AppAdminRoute
+  '/app/caregiver': typeof AppCaregiverRoute
+  '/app/doctor': typeof AppDoctorRoute
+  '/app/find-medicine': typeof AppFindMedicineRoute
   '/app/patient': typeof AppPatientRoute
+  '/app/pharmacy': typeof AppPharmacyRoute
+  '/app/prescriptions': typeof AppPrescriptionsRoute
+  '/caregiver/alerts': typeof CaregiverAlertsRoute
+  '/caregiver/dashboard': typeof CaregiverDashboardRoute
+  '/caregiver/medications': typeof CaregiverMedicationsRoute
+  '/doctor/adherence': typeof DoctorAdherenceRoute
+  '/doctor/dashboard': typeof DoctorDashboardRoute
+  '/doctor/prescriptions': typeof DoctorPrescriptionsRoute
+  '/patient/adherence': typeof PatientAdherenceRoute
+  '/patient/caregiver': typeof PatientCaregiverRoute
+  '/patient/dashboard': typeof PatientDashboardRoute
+  '/patient/find-medicine': typeof PatientFindMedicineRoute
+  '/patient/medications': typeof PatientMedicationsRoute
+  '/patient/prescriptions': typeof PatientPrescriptionsRoute
+  '/patient/reminders': typeof PatientRemindersRoute
+  '/pharmacy/dashboard': typeof PharmacyDashboardRoute
+  '/pharmacy/inventory': typeof PharmacyInventoryRoute
+  '/pharmacy/requests': typeof PharmacyRequestsRoute
   '/app/': typeof AppIndexRoute
+  '/doctor/patients/$id': typeof DoctorPatientsIdRoute
+  '/doctor/patients/': typeof DoctorPatientsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/app/patient' | '/app/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/login'
+    | '/register'
+    | '/admin/dashboard'
+    | '/app/adherence'
+    | '/app/admin'
+    | '/app/caregiver'
+    | '/app/doctor'
+    | '/app/find-medicine'
+    | '/app/patient'
+    | '/app/pharmacy'
+    | '/app/prescriptions'
+    | '/caregiver/alerts'
+    | '/caregiver/dashboard'
+    | '/caregiver/medications'
+    | '/doctor/adherence'
+    | '/doctor/dashboard'
+    | '/doctor/prescriptions'
+    | '/patient/adherence'
+    | '/patient/caregiver'
+    | '/patient/dashboard'
+    | '/patient/find-medicine'
+    | '/patient/medications'
+    | '/patient/prescriptions'
+    | '/patient/reminders'
+    | '/pharmacy/dashboard'
+    | '/pharmacy/inventory'
+    | '/pharmacy/requests'
+    | '/app/'
+    | '/doctor/patients/$id'
+    | '/doctor/patients/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app/patient' | '/app'
-  id: '__root__' | '/' | '/app' | '/app/patient' | '/app/'
+  to:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/admin/dashboard'
+    | '/app/adherence'
+    | '/app/admin'
+    | '/app/caregiver'
+    | '/app/doctor'
+    | '/app/find-medicine'
+    | '/app/patient'
+    | '/app/pharmacy'
+    | '/app/prescriptions'
+    | '/caregiver/alerts'
+    | '/caregiver/dashboard'
+    | '/caregiver/medications'
+    | '/doctor/adherence'
+    | '/doctor/dashboard'
+    | '/doctor/prescriptions'
+    | '/patient/adherence'
+    | '/patient/caregiver'
+    | '/patient/dashboard'
+    | '/patient/find-medicine'
+    | '/patient/medications'
+    | '/patient/prescriptions'
+    | '/patient/reminders'
+    | '/pharmacy/dashboard'
+    | '/pharmacy/inventory'
+    | '/pharmacy/requests'
+    | '/app'
+    | '/doctor/patients/$id'
+    | '/doctor/patients'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/login'
+    | '/register'
+    | '/admin/dashboard'
+    | '/app/adherence'
+    | '/app/admin'
+    | '/app/caregiver'
+    | '/app/doctor'
+    | '/app/find-medicine'
+    | '/app/patient'
+    | '/app/pharmacy'
+    | '/app/prescriptions'
+    | '/caregiver/alerts'
+    | '/caregiver/dashboard'
+    | '/caregiver/medications'
+    | '/doctor/adherence'
+    | '/doctor/dashboard'
+    | '/doctor/prescriptions'
+    | '/patient/adherence'
+    | '/patient/caregiver'
+    | '/patient/dashboard'
+    | '/patient/find-medicine'
+    | '/patient/medications'
+    | '/patient/prescriptions'
+    | '/patient/reminders'
+    | '/pharmacy/dashboard'
+    | '/pharmacy/inventory'
+    | '/pharmacy/requests'
+    | '/app/'
+    | '/doctor/patients/$id'
+    | '/doctor/patients/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
+  CaregiverAlertsRoute: typeof CaregiverAlertsRoute
+  CaregiverDashboardRoute: typeof CaregiverDashboardRoute
+  CaregiverMedicationsRoute: typeof CaregiverMedicationsRoute
+  DoctorAdherenceRoute: typeof DoctorAdherenceRoute
+  DoctorDashboardRoute: typeof DoctorDashboardRoute
+  DoctorPrescriptionsRoute: typeof DoctorPrescriptionsRoute
+  PatientAdherenceRoute: typeof PatientAdherenceRoute
+  PatientCaregiverRoute: typeof PatientCaregiverRoute
+  PatientDashboardRoute: typeof PatientDashboardRoute
+  PatientFindMedicineRoute: typeof PatientFindMedicineRoute
+  PatientMedicationsRoute: typeof PatientMedicationsRoute
+  PatientPrescriptionsRoute: typeof PatientPrescriptionsRoute
+  PatientRemindersRoute: typeof PatientRemindersRoute
+  PharmacyDashboardRoute: typeof PharmacyDashboardRoute
+  PharmacyInventoryRoute: typeof PharmacyInventoryRoute
+  PharmacyRequestsRoute: typeof PharmacyRequestsRoute
+  DoctorPatientsIdRoute: typeof DoctorPatientsIdRoute
+  DoctorPatientsIndexRoute: typeof DoctorPatientsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,11 +451,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app/': {
       id: '/app/'
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/adherence': {
+      id: '/app/adherence'
+      path: '/adherence'
+      fullPath: '/app/adherence'
+      preLoaderRoute: typeof AppAdherenceRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/admin': {
+      id: '/app/admin'
+      path: '/admin'
+      fullPath: '/app/admin'
+      preLoaderRoute: typeof AppAdminRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/caregiver': {
+      id: '/app/caregiver'
+      path: '/caregiver'
+      fullPath: '/app/caregiver'
+      preLoaderRoute: typeof AppCaregiverRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/doctor': {
+      id: '/app/doctor'
+      path: '/doctor'
+      fullPath: '/app/doctor'
+      preLoaderRoute: typeof AppDoctorRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/find-medicine': {
+      id: '/app/find-medicine'
+      path: '/find-medicine'
+      fullPath: '/app/find-medicine'
+      preLoaderRoute: typeof AppFindMedicineRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/patient': {
@@ -96,16 +521,170 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPatientRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/pharmacy': {
+      id: '/app/pharmacy'
+      path: '/pharmacy'
+      fullPath: '/app/pharmacy'
+      preLoaderRoute: typeof AppPharmacyRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/prescriptions': {
+      id: '/app/prescriptions'
+      path: '/prescriptions'
+      fullPath: '/app/prescriptions'
+      preLoaderRoute: typeof AppPrescriptionsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/caregiver/alerts': {
+      id: '/caregiver/alerts'
+      path: '/caregiver/alerts'
+      fullPath: '/caregiver/alerts'
+      preLoaderRoute: typeof CaregiverAlertsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/caregiver/dashboard': {
+      id: '/caregiver/dashboard'
+      path: '/caregiver/dashboard'
+      fullPath: '/caregiver/dashboard'
+      preLoaderRoute: typeof CaregiverDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/caregiver/medications': {
+      id: '/caregiver/medications'
+      path: '/caregiver/medications'
+      fullPath: '/caregiver/medications'
+      preLoaderRoute: typeof CaregiverMedicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doctor/adherence': {
+      id: '/doctor/adherence'
+      path: '/doctor/adherence'
+      fullPath: '/doctor/adherence'
+      preLoaderRoute: typeof DoctorAdherenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doctor/dashboard': {
+      id: '/doctor/dashboard'
+      path: '/doctor/dashboard'
+      fullPath: '/doctor/dashboard'
+      preLoaderRoute: typeof DoctorDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doctor/prescriptions': {
+      id: '/doctor/prescriptions'
+      path: '/doctor/prescriptions'
+      fullPath: '/doctor/prescriptions'
+      preLoaderRoute: typeof DoctorPrescriptionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patient/adherence': {
+      id: '/patient/adherence'
+      path: '/patient/adherence'
+      fullPath: '/patient/adherence'
+      preLoaderRoute: typeof PatientAdherenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patient/caregiver': {
+      id: '/patient/caregiver'
+      path: '/patient/caregiver'
+      fullPath: '/patient/caregiver'
+      preLoaderRoute: typeof PatientCaregiverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patient/dashboard': {
+      id: '/patient/dashboard'
+      path: '/patient/dashboard'
+      fullPath: '/patient/dashboard'
+      preLoaderRoute: typeof PatientDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patient/find-medicine': {
+      id: '/patient/find-medicine'
+      path: '/patient/find-medicine'
+      fullPath: '/patient/find-medicine'
+      preLoaderRoute: typeof PatientFindMedicineRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patient/medications': {
+      id: '/patient/medications'
+      path: '/patient/medications'
+      fullPath: '/patient/medications'
+      preLoaderRoute: typeof PatientMedicationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patient/prescriptions': {
+      id: '/patient/prescriptions'
+      path: '/patient/prescriptions'
+      fullPath: '/patient/prescriptions'
+      preLoaderRoute: typeof PatientPrescriptionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/patient/reminders': {
+      id: '/patient/reminders'
+      path: '/patient/reminders'
+      fullPath: '/patient/reminders'
+      preLoaderRoute: typeof PatientRemindersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pharmacy/dashboard': {
+      id: '/pharmacy/dashboard'
+      path: '/pharmacy/dashboard'
+      fullPath: '/pharmacy/dashboard'
+      preLoaderRoute: typeof PharmacyDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pharmacy/inventory': {
+      id: '/pharmacy/inventory'
+      path: '/pharmacy/inventory'
+      fullPath: '/pharmacy/inventory'
+      preLoaderRoute: typeof PharmacyInventoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pharmacy/requests': {
+      id: '/pharmacy/requests'
+      path: '/pharmacy/requests'
+      fullPath: '/pharmacy/requests'
+      preLoaderRoute: typeof PharmacyRequestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doctor/patients/': {
+      id: '/doctor/patients/'
+      path: '/doctor/patients'
+      fullPath: '/doctor/patients/'
+      preLoaderRoute: typeof DoctorPatientsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/doctor/patients/$id': {
+      id: '/doctor/patients/$id'
+      path: '/doctor/patients/$id'
+      fullPath: '/doctor/patients/$id'
+      preLoaderRoute: typeof DoctorPatientsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 interface AppRouteChildren {
+  AppAdherenceRoute: typeof AppAdherenceRoute
+  AppAdminRoute: typeof AppAdminRoute
+  AppCaregiverRoute: typeof AppCaregiverRoute
+  AppDoctorRoute: typeof AppDoctorRoute
+  AppFindMedicineRoute: typeof AppFindMedicineRoute
   AppPatientRoute: typeof AppPatientRoute
+  AppPharmacyRoute: typeof AppPharmacyRoute
+  AppPrescriptionsRoute: typeof AppPrescriptionsRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
+  AppAdherenceRoute: AppAdherenceRoute,
+  AppAdminRoute: AppAdminRoute,
+  AppCaregiverRoute: AppCaregiverRoute,
+  AppDoctorRoute: AppDoctorRoute,
+  AppFindMedicineRoute: AppFindMedicineRoute,
   AppPatientRoute: AppPatientRoute,
+  AppPharmacyRoute: AppPharmacyRoute,
+  AppPrescriptionsRoute: AppPrescriptionsRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
@@ -114,6 +693,27 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
+  CaregiverAlertsRoute: CaregiverAlertsRoute,
+  CaregiverDashboardRoute: CaregiverDashboardRoute,
+  CaregiverMedicationsRoute: CaregiverMedicationsRoute,
+  DoctorAdherenceRoute: DoctorAdherenceRoute,
+  DoctorDashboardRoute: DoctorDashboardRoute,
+  DoctorPrescriptionsRoute: DoctorPrescriptionsRoute,
+  PatientAdherenceRoute: PatientAdherenceRoute,
+  PatientCaregiverRoute: PatientCaregiverRoute,
+  PatientDashboardRoute: PatientDashboardRoute,
+  PatientFindMedicineRoute: PatientFindMedicineRoute,
+  PatientMedicationsRoute: PatientMedicationsRoute,
+  PatientPrescriptionsRoute: PatientPrescriptionsRoute,
+  PatientRemindersRoute: PatientRemindersRoute,
+  PharmacyDashboardRoute: PharmacyDashboardRoute,
+  PharmacyInventoryRoute: PharmacyInventoryRoute,
+  PharmacyRequestsRoute: PharmacyRequestsRoute,
+  DoctorPatientsIdRoute: DoctorPatientsIdRoute,
+  DoctorPatientsIndexRoute: DoctorPatientsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -85,13 +85,13 @@ function Hero() {
 
           <div className="mt-9 flex flex-wrap gap-3">
             <Button asChild variant="hero" size="xl">
-              <Link to="/app/patient">
-                Explore Swasthya <ArrowRight />
+              <Link to="/login">
+                TRY DEMO <ArrowRight />
               </Link>
             </Button>
             <Button asChild variant="outline" size="xl">
               <a href="#journey">
-                <PlayCircle /> Watch how it works
+                <PlayCircle /> EXPLORE HOW IT WORKS
               </a>
             </Button>
           </div>
@@ -123,25 +123,25 @@ const roleCards = [
     icon: Stethoscope,
     role: "Doctor",
     points: ["Prescription verification", "Medication plan authority"],
-    to: "/app/doctor" as const,
+    to: "/doctor/dashboard" as const,
   },
   {
     icon: User,
     role: "Patient",
     points: ["Personalised reminders", "Simple acknowledgement"],
-    to: "/app/patient" as const,
+    to: "/patient/dashboard" as const,
   },
   {
     icon: HeartHandshake,
     role: "Caregiver",
     points: ["Remote support", "Meaningful alerts only"],
-    to: "/app/caregiver" as const,
+    to: "/caregiver/dashboard" as const,
   },
   {
     icon: Store,
     role: "Pharmacy",
     points: ["Medicine discovery", "Availability confirmation"],
-    to: "/app/pharmacy" as const,
+    to: "/pharmacy/dashboard" as const,
   },
 ];
 

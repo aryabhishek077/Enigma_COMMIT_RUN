@@ -46,14 +46,14 @@ export function SiteFooter() {
   );
 }
 
-function FooterCol({ title, items }: { title: string; items: { label: string; to: LinkProps["to"] }[] }) {
+function FooterCol({ title, items }: { title: string; items: { label: string; to: string }[] }) {
   return (
     <div>
       <h3 className="text-sm font-bold text-navy">{title}</h3>
       <ul className="mt-4 space-y-2.5">
         {items.map((i) => (
           <li key={i.label}>
-            <Link to={i.to} className="text-sm text-muted-foreground transition-colors hover:text-primary">
+            <Link to={i.to as any} className="text-sm text-muted-foreground transition-colors hover:text-primary">
               {i.label}
             </Link>
           </li>
