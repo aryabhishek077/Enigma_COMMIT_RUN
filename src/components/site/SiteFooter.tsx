@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, type LinkProps } from "@tanstack/react-router";
 import { Logo } from "@/components/brand/Logo";
 
 export function SiteFooter() {
@@ -46,7 +46,7 @@ export function SiteFooter() {
   );
 }
 
-function FooterCol({ title, items }: { title: string; items: { label: string; to: string }[] }) {
+function FooterCol({ title, items }: { title: string; items: { label: string; to: LinkProps["to"] }[] }) {
   return (
     <div>
       <h3 className="text-sm font-bold text-navy">{title}</h3>
