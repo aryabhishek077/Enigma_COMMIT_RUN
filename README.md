@@ -5,6 +5,15 @@
 
 ---
 
+## 🌐 Live Demo Deployments
+
+- 🌟 **Option 1 (Active Full Feature Deployment with Real-time DB Sync & Judge Shortcuts)**:  
+  👉 **[https://round-src-shopzilla-apart.trycloudflare.com](https://round-src-shopzilla-apart.trycloudflare.com)**
+- 🛡️ **Option B (Original Deployment — Preserved & Untouched)**:  
+  👉 **[https://shoulder-judges-organisation-firms.trycloudflare.com](https://shoulder-judges-organisation-firms.trycloudflare.com)**
+
+---
+
 ## 👥 Team Information
 
 - **Team Name**: `COMMIT&RUN`
