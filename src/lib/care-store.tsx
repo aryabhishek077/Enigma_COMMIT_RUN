@@ -16,6 +16,13 @@ import {
 
 export type Role = "patient" | "doctor" | "caregiver" | "pharmacy" | "admin";
 
+export type AuthUser = {
+  email: string;
+  name: string;
+  role: Role;
+  codeOrReg: string;
+};
+
 export type DoctorVerification = {
   doctorName: string;
   council: string;
@@ -61,7 +68,35 @@ export type CareAlert = {
   time: string;
 };
 
+export const REGISTERED_ACCOUNTS: Record<string, { password: string; user: AuthUser }> = {
+  "doctor@swasthya.com": {
+    password: "doctor123",
+    user: { email: "doctor@swasthya.com", name: "Dr. Amit Sharma", role: "doctor", codeOrReg: "MMC123456" },
+  },
+  "patient@swasthya.com": {
+    password: "patient123",
+    user: { email: "patient@swasthya.com", name: "Mrs. Sunita Sharma", role: "patient", codeOrReg: "SWS-P-8F42K91" },
+  },
+  "caretaker@swasthya.com": {
+    password: "caretaker123",
+    user: { email: "caretaker@swasthya.com", name: "Rahul Sharma", role: "caregiver", codeOrReg: "Caregiver (Son)" },
+  },
+  "medical@swasthya.com": {
+    password: "medical123",
+    user: { email: "medical@swasthya.com", name: "ABC Medical", role: "pharmacy", codeOrReg: "Lic: MH-PUN-2024" },
+  },
+  "admin@swasthya.com": {
+    password: "admin123",
+    user: { email: "admin@swasthya.com", name: "Swasthya Admin", role: "admin", codeOrReg: "Auditor" },
+  },
+};
+
 type CareState = {
+  // Authentication & Verification
+  isAuthenticated: boolean;
+  currentUser: AuthUser | null;
+  loginUser: (email: string, pass: string) => { success: boolean; error?: string };
+  logout: () => void;
   currentRole: Role;
   setCurrentRole: (role: Role) => void;
   // Admin Doctor Verification
@@ -100,10 +135,17 @@ type CareState = {
 
 const CareContext = createContext<CareState | null>(null);
 
-const STORAGE_KEY = "swasthya_care_state_v2";
+const STORAGE_KEY = "swasthya_care_state_v3";
 
 export function CareProvider({ children }: { children: ReactNode }) {
-  // Current Role
+  // Authentication State
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>({
+    email: "patient@swasthya.com",
+    name: "Mrs. Sunita Sharma",
+    role: "patient",
+    codeOrReg: "SWS-P-8F42K91",
+  });
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [currentRole, setCurrentRole] = useState<Role>("patient");
 
   // Doctor Verification
@@ -112,7 +154,8 @@ export function CareProvider({ children }: { children: ReactNode }) {
     council: "Maharashtra Medical Council",
     regNumber: "MMC123456",
     specialization: "General Medicine",
-    status: "PENDING",
+    status: "VERIFIED",
+    verifiedAt: "26 Sep 2026",
   });
 
   // Doctor-Patient Relationships
@@ -197,6 +240,8 @@ export function CareProvider({ children }: { children: ReactNode }) {
         if (parsed.requests) setRequests(parsed.requests);
         if (parsed.hasRepeatedMissed !== undefined) setHasRepeatedMissed(parsed.hasRepeatedMissed);
         if (parsed.currentRole) setCurrentRole(parsed.currentRole);
+        if (parsed.currentUser) setCurrentUser(parsed.currentUser);
+        if (parsed.isAuthenticated !== undefined) setIsAuthenticated(parsed.isAuthenticated);
       }
     } catch (e) {
       console.warn("Could not parse saved care state", e);
@@ -217,12 +262,45 @@ export function CareProvider({ children }: { children: ReactNode }) {
           requests,
           hasRepeatedMissed,
           currentRole,
+          currentUser,
+          isAuthenticated,
         }),
       );
     } catch {
-      // ignore storage write errors
+      // ignore
     }
-  }, [doctorVerification, doctorPatientRels, prescriptions, doses, supply, requests, hasRepeatedMissed, currentRole]);
+  }, [
+    doctorVerification,
+    doctorPatientRels,
+    prescriptions,
+    doses,
+    supply,
+    requests,
+    hasRepeatedMissed,
+    currentRole,
+    currentUser,
+    isAuthenticated,
+  ]);
+
+  // Authentication logic
+  const loginUser = useCallback((email: string, pass: string) => {
+    const acc = REGISTERED_ACCOUNTS[email.trim().toLowerCase()];
+    if (!acc) {
+      return { success: false, error: "Account not found. Use one of the 4 demo accounts." };
+    }
+    if (acc.password !== pass) {
+      return { success: false, error: `Invalid password. Demo password is "${acc.password}".` };
+    }
+    setCurrentUser(acc.user);
+    setIsAuthenticated(true);
+    setCurrentRole(acc.user.role);
+    return { success: true };
+  }, []);
+
+  const logout = useCallback(() => {
+    setIsAuthenticated(false);
+    setCurrentUser(null);
+  }, []);
 
   // Admin Actions
   const verifyDoctor = useCallback(() => {
@@ -363,12 +441,21 @@ export function CareProvider({ children }: { children: ReactNode }) {
   // Reset demo
   const resetAllDemoData = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
+    setCurrentUser({
+      email: "patient@swasthya.com",
+      name: "Mrs. Sunita Sharma",
+      role: "patient",
+      codeOrReg: "SWS-P-8F42K91",
+    });
+    setIsAuthenticated(true);
+    setCurrentRole("patient");
     setDoctorVerification({
       doctorName: "Dr. Amit Sharma",
       council: "Maharashtra Medical Council",
       regNumber: "MMC123456",
       specialization: "General Medicine",
-      status: "PENDING",
+      status: "VERIFIED",
+      verifiedAt: "26 Sep 2026",
     });
     setDoses(initialDoses);
     setSupply(initialSupply);
@@ -383,6 +470,10 @@ export function CareProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<CareState>(
     () => ({
+      isAuthenticated,
+      currentUser,
+      loginUser,
+      logout,
       currentRole,
       setCurrentRole,
       doctorVerification,
@@ -411,6 +502,10 @@ export function CareProvider({ children }: { children: ReactNode }) {
       resetAllDemoData,
     }),
     [
+      isAuthenticated,
+      currentUser,
+      loginUser,
+      logout,
       currentRole,
       doctorVerification,
       verifyDoctor,

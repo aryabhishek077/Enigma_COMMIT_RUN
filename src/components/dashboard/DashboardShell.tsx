@@ -1,4 +1,4 @@
-import { Link, useRouterState, type LinkProps } from "@tanstack/react-router";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import {
   Activity,
   Bell,
@@ -17,6 +17,9 @@ import {
   UserCheck,
   UserCog,
   X,
+  Lock,
+  ArrowRight,
+  ShieldAlert,
 } from "lucide-react";
 import type { ReactNode } from "react";
 import { Logo } from "@/components/brand/Logo";
@@ -92,63 +95,39 @@ function NavList({ items, onNavigate }: { items: NavItem[]; onNavigate?: (() => 
   );
 }
 
-function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
-  const { currentRole, setCurrentRole } = useCare();
+function SidebarBody({ onNavigate }: { onNavigate?: (() => void) | undefined }) {
+  const navigate = useNavigate();
+  const { currentRole, currentUser, logout } = useCare();
 
-  const roleProfiles: Record<Role, { name: string; tag: string; initials: string }> = {
-    patient: { name: "Sunita Sharma", tag: "ID: SWS-P-8F42K91", initials: "SS" },
-    doctor: { name: "Dr. Amit Sharma", tag: "General Medicine", initials: "AS" },
-    caregiver: { name: "Rahul Sharma", tag: "Caregiver (Son)", initials: "RS" },
-    pharmacy: { name: "ABC Medical", tag: "Connected Chemist", initials: "AM" },
-    admin: { name: "Swasthya Admin", tag: "Prototype Verifier", initials: "AD" },
+  const handleLogout = () => {
+    logout();
+    navigate({ to: "/login" as any });
   };
-
-  const activeProfile = roleProfiles[currentRole] || roleProfiles.patient;
 
   return (
     <div className="flex h-full flex-col gap-6 p-5 overflow-y-auto">
       <Logo />
 
-      {/* Role Switcher */}
-      <nav aria-label="Roles">
-        <p className="px-3.5 pb-2 text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground">
-          Demo Roles
-        </p>
-        <div className="grid grid-cols-1 gap-1">
-          {roleNav.map((r) => {
-            const isCurrent = currentRole === r.role;
-            return (
-              <Link
-                key={r.role}
-                to={r.to}
-                onClick={() => {
-                  setCurrentRole(r.role);
-                  onNavigate?.();
-                }}
-                className={cn(
-                  "flex items-center justify-between rounded-xl px-3.5 py-2 text-xs font-semibold transition-all",
-                  isCurrent
-                    ? "bg-primary/10 text-primary font-bold border border-primary/30"
-                    : "text-muted-foreground hover:bg-sidebar-accent hover:text-foreground",
-                )}
-              >
-                <span className="flex items-center gap-2">
-                  <r.icon className="size-4" />
-                  {r.label}
-                </span>
-                {isCurrent && (
-                  <span className="size-1.5 rounded-full bg-primary" />
-                )}
-              </Link>
-            );
-          })}
+      {/* Verified User Badge */}
+      <div className="p-3.5 rounded-2xl bg-primary/10 border border-primary/20">
+        <div className="flex items-center gap-2">
+          <ShieldCheck className="size-4 text-primary shrink-0" />
+          <span className="text-[11px] font-bold text-primary uppercase tracking-wider">
+            Verified Account
+          </span>
         </div>
-      </nav>
+        <p className="font-extrabold text-navy text-sm mt-1 truncate">
+          {currentUser?.name ?? "Authenticated Session"}
+        </p>
+        <p className="text-xs text-muted-foreground font-mono mt-0.5 truncate">
+          {currentUser?.codeOrReg ?? currentUser?.email}
+        </p>
+      </div>
 
       {/* Contextual Navigation based on Active Role */}
       <nav aria-label="Workflows">
         <p className="px-3.5 pb-2 text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground">
-          {currentRole.toUpperCase()} PORTAL
+          {currentRole.toUpperCase()} NAVIGATION
         </p>
         {currentRole === "patient" && <NavList items={patientWorkflowNav} onNavigate={onNavigate} />}
         {currentRole === "doctor" && <NavList items={doctorWorkflowNav} onNavigate={onNavigate} />}
@@ -156,30 +135,25 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
         {currentRole === "pharmacy" && <NavList items={pharmacyWorkflowNav} onNavigate={onNavigate} />}
         {currentRole === "admin" && (
           <NavList
-            items={[
-              { label: "Doctor Verification", to: "/admin/dashboard", icon: UserCheck },
-            ]}
+            items={[{ label: "Doctor Verification", to: "/admin/dashboard", icon: UserCheck }]}
             onNavigate={onNavigate}
           />
         )}
       </nav>
 
       <div className="mt-auto space-y-2 border-t border-sidebar-border pt-4">
-        <div className="flex items-center gap-3 rounded-xl px-3 py-2 bg-card border border-border">
-          <span className="inline-flex size-9 shrink-0 items-center justify-center rounded-full bg-primary-soft font-display text-sm font-bold text-primary">
-            {activeProfile.initials}
-          </span>
-          <span className="min-w-0">
-            <span className="block truncate text-sm font-bold text-navy">{activeProfile.name}</span>
-            <span className="block text-xs text-muted-foreground truncate">{activeProfile.tag}</span>
-          </span>
-        </div>
+        <button
+          onClick={handleLogout}
+          className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition"
+        >
+          <LogOut className="size-4" /> Sign Out / Switch Account
+        </button>
         <Link
           to="/"
           onClick={onNavigate}
           className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
         >
-          <LogOut className="size-4" /> Home / Landing
+          ← Return to Landing Page
         </Link>
       </div>
     </div>
@@ -199,7 +173,42 @@ export function DashboardShell({
   actions?: ReactNode;
   children: ReactNode;
 }) {
-  const { currentRole, setCurrentRole, lastPatientNotification, clearNotification } = useCare();
+  const navigate = useNavigate();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const {
+    currentRole,
+    currentUser,
+    isAuthenticated,
+    logout,
+    lastPatientNotification,
+    clearNotification,
+  } = useCare();
+
+  // Role validation: check if the page route matches the current authorized role
+  const isDoctorRoute = pathname.startsWith("/doctor");
+  const isPatientRoute = pathname.startsWith("/patient");
+  const isCaregiverRoute = pathname.startsWith("/caregiver");
+  const isPharmacyRoute = pathname.startsWith("/pharmacy");
+  const isAdminRoute = pathname.startsWith("/admin");
+
+  const expectedRole = isDoctorRoute
+    ? "doctor"
+    : isPatientRoute
+    ? "patient"
+    : isCaregiverRoute
+    ? "caregiver"
+    : isPharmacyRoute
+    ? "pharmacy"
+    : isAdminRoute
+    ? "admin"
+    : currentRole;
+
+  const isRoleMismatch = currentRole !== expectedRole;
+
+  const handleSignOut = () => {
+    logout();
+    navigate({ to: "/login" as any });
+  };
 
   return (
     <div className="min-h-screen bg-background lg:grid lg:grid-cols-[17rem_1fr]">
@@ -208,44 +217,34 @@ export function DashboardShell({
       </aside>
 
       <div className="flex min-w-0 flex-col">
-        {/* Top Announcement / Quick Switcher Bar */}
+        {/* Verification Status Header Bar */}
         <div className="bg-slate-900 text-white px-4 py-2 text-xs flex flex-wrap items-center justify-between gap-2 border-b border-slate-800">
           <div className="flex items-center gap-2">
-            <span className="rounded bg-primary px-1.5 py-0.5 font-bold uppercase tracking-wider text-[10px]">
-              Demo Mode
+            <span className="inline-flex items-center gap-1 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 font-bold uppercase tracking-wider text-[10px]">
+              <ShieldCheck className="size-3" /> VERIFIED SESSION
             </span>
-            <span className="text-slate-300 hidden sm:inline">
-              Testing as <strong className="text-white capitalize">{currentRole}</strong>
+            <span className="text-slate-300 text-xs">
+              Logged in as: <strong className="text-white">{currentUser?.name}</strong> ({currentUser?.codeOrReg})
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 overflow-x-auto">
-            <span className="text-slate-400 text-[11px] mr-1 hidden md:inline">Quick Switch:</span>
-            {(["admin", "doctor", "patient", "caregiver", "pharmacy"] as Role[]).map((r) => (
-              <Link
-                key={r}
-                to={
-                  r === "admin"
-                    ? "/admin/dashboard"
-                    : r === "doctor"
-                    ? "/doctor/dashboard"
-                    : r === "patient"
-                    ? "/patient/dashboard"
-                    : r === "caregiver"
-                    ? "/caregiver/dashboard"
-                    : "/pharmacy/dashboard"
-                }
-                onClick={() => setCurrentRole(r)}
-                className={cn(
-                  "px-2.5 py-1 rounded text-[11px] font-medium transition capitalize",
-                  currentRole === r
-                    ? "bg-primary text-white font-bold"
-                    : "bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white",
-                )}
-              >
-                {r}
-              </Link>
-            ))}
+          <div className="flex items-center gap-2">
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={handleSignOut}
+              className="text-xs text-slate-300 hover:text-white hover:bg-slate-800 h-7 px-2.5 font-semibold"
+            >
+              <LogOut className="size-3.5 mr-1" /> Sign Out
+            </Button>
+            <Button
+              asChild
+              size="sm"
+              variant="outline"
+              className="border-slate-700 bg-slate-800 text-white hover:bg-slate-700 h-7 text-xs font-bold"
+            >
+              <Link to="/login">Switch Account</Link>
+            </Button>
           </div>
         </div>
 
@@ -302,6 +301,34 @@ export function DashboardShell({
             </div>
           </div>
         </header>
+
+        {/* ROLE RESTRICTION / VERIFICATION GUARD */}
+        {isRoleMismatch && (
+          <div className="m-4 sm:m-8 p-6 rounded-3xl bg-amber-50 border-2 border-amber-300 text-amber-950 shadow-sm animate-fade-in">
+            <div className="flex items-start gap-4">
+              <div className="size-12 rounded-2xl bg-amber-200 text-amber-900 flex items-center justify-center shrink-0">
+                <ShieldAlert className="size-6" />
+              </div>
+              <div>
+                <span className="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-200 text-amber-900">
+                  Role Authorization Required
+                </span>
+                <h3 className="font-extrabold text-navy text-lg mt-1">
+                  You are viewing this portal as {currentUser?.name} ({currentRole})
+                </h3>
+                <p className="text-xs text-amber-900 mt-1 max-w-xl leading-relaxed">
+                  This portal belongs to the <strong>{expectedRole.toUpperCase()}</strong> role. To access with full permissions, please sign in using that role's verified credentials.
+                </p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <Button asChild size="sm" variant="hero">
+                    <Link to="/login">Sign In with {expectedRole.toUpperCase()} ID</Link>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <main className="min-w-0 flex-1 px-4 py-6 lg:px-8 lg:py-8">{children}</main>
       </div>
