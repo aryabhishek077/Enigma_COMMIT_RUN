@@ -1,7 +1,7 @@
 {
   "prescriptions": [
     {
-      "id": "RX-1790422780903",
+      "id": "RX-1790427607185",
       "doctor_id": "DOC-001",
       "doctor_name": "Dr. Amit Sharma",
       "doctor_reg": "MMC123456",
@@ -9,6 +9,195 @@
       "patient_code": "SWS-P-8F42K91",
       "patient_name": "Mrs. Sunita Sharma",
       "status": "ACTIVE",
+      "date": "2026-09-26",
+      "created_at": "2026-09-26T13:00:07.185Z",
+      "items": [
+        {
+          "id": "ITEM-1790427607186",
+          "prescription_id": "RX-1790427607185",
+          "medicine_name": "medicine",
+          "strength": "200 mg",
+          "dose": "1 tablet",
+          "frequency": "Twice daily (1-0-1)",
+          "timing": "Morning + Night",
+          "duration": "20 days",
+          "instructions": "After meals",
+          "ai_confidence": "High (98.4%)",
+          "created_at": "2026-09-26T13:00:07.185Z"
+        }
+      ]
+    },
+    {
+      "id": "RX-1790426432651",
+      "doctor_id": "DOC-001",
+      "doctor_name": "Dr. Amit Sharma",
+      "doctor_reg": "MMC123456",
+      "patient_id": "PAT-001",
+      "patient_code": "SWS-P-8F42K91",
+      "patient_name": "Mrs. Sunita Sharma",
+      "status": "ACTIVE",
+      "date": "2026-09-26",
+      "created_at": "2026-09-26T12:40:32.651Z",
+      "items": [
+        {
+          "id": "ITEM-1790426432651",
+          "prescription_id": "RX-1790426432651",
+          "medicine_name": "Met",
+          "strength": "200 mg",
+          "dose": "1 tablet",
+          "frequency": "Twice daily (1-0-1)",
+          "timing": "Morning + Night",
+          "duration": "15 days",
+          "instructions": "After meals",
+          "ai_confidence": "High (98.4%)",
+          "created_at": "2026-09-26T12:40:32.651Z"
+        }
+      ]
+    },
+    {
+      "id": "RX-1790425899315",
+      "doctor_id": "DOC-001",
+      "doctor_name": "Dr. Amit Sharma",
+      "doctor_reg": "MMC123456",
+      "patient_id": "PAT-001",
+      "patient_code": "SWS-P-8F42K91",
+      "patient_name": "Mrs. Sunita Sharma",
+      "status": "ACTIVE",
+      "date": "2026-09-26",
+      "created_at": "2026-09-26T12:31:39.314Z",
+      "items": [
+        {
+          "id": "ITEM-1790425899318",
+          "prescription_id": "RX-1790425899315",
+          "medicine_name": "hack",
+          "strength": "100 mg",
+          "dose": "1 tablet",
+          "frequency": "Twice daily (1-0-1)",
+          "timing": "Morning + Night",
+          "duration": "12 days",
+          "instructions": "After meals",
+          "ai_confidence": "High (98.4%)",
+          "created_at": "2026-09-26T12:31:39.314Z"
+        }
+      ]
+    },
+    {
+      "id": "RX-1790424256158",
+      "doctor_id": "DOC-001",
+      "doctor_name": "Dr. Amit Sharma",
+      "doctor_reg": "MMC123456",
+      "patient_id": "PAT-001",
+      "patient_code": "SWS-P-8F42K91",
+      "patient_name": "Mrs. Sunita Sharma",
+      "status": "ACTIVE",
+      "date": "2026-09-26",
+      "created_at": "2026-09-26T12:04:16.158Z",
+      "items": [
+        {
+          "id": "ITEM-1790424256158",
+          "prescription_id": "RX-1790424256158",
+          "medicine_name": "Metformin",
+          "strength": "500 mg",
+          "dose": "1 tablet",
+          "frequency": "Twice daily (1-0-1)",
+          "timing": "Morning + Night",
+          "duration": "30 days",
+          "instructions": "After meals",
+          "ai_confidence": "High (98.4%)",
+          "created_at": "2026-09-26T12:04:16.158Z"
+        }
+      ]
+    },
+    {
+      "id": "RX-1790424125657",
+      "doctor_id": "DOC-001",
+      "doctor_name": "Dr. Amit Sharma",
+      "doctor_reg": "MMC123456",
+      "patient_id": "PAT-001",
+      "patient_code": "SWS-P-8F42K91",
+      "patient_name": "Mrs. Sunita Sharma",
+      "status": "SUPERSEDED",
+      "date": "2026-09-26",
+      "created_at": "2026-09-26T12:02:05.657Z",
+      "items": [
+        {
+          "id": "ITEM-1790424125657",
+          "prescription_id": "RX-1790424125657",
+          "medicine_name": "Met",
+          "strength": "230 mg",
+          "dose": "1 tablet",
+          "frequency": "Twice daily (1-0-1)",
+          "timing": "Morning + Night",
+          "duration": "3 days",
+          "instructions": "After meals",
+          "ai_confidence": "High (98.4%)",
+          "created_at": "2026-09-26T12:02:05.657Z"
+        }
+      ]
+    },
+    {
+      "id": "RX-1790423938024",
+      "doctor_id": "DOC-001",
+      "doctor_name": "Dr. Amit Sharma",
+      "doctor_reg": "MMC123456",
+      "patient_id": "PAT-001",
+      "patient_code": "SWS-P-8F42K91",
+      "patient_name": "Mrs. Sunita Sharma",
+      "status": "ACTIVE",
+      "date": "2026-09-26",
+      "created_at": "2026-09-26T11:58:58.024Z",
+      "items": [
+        {
+          "id": "ITEM-1790423938024",
+          "prescription_id": "RX-1790423938024",
+          "medicine_name": "parac",
+          "strength": "500 mg",
+          "dose": "1 tablet",
+          "frequency": "Twice daily (1-0-1)",
+          "timing": "Morning + Night",
+          "duration": "30 days",
+          "instructions": "After meals",
+          "ai_confidence": "High (98.4%)",
+          "created_at": "2026-09-26T11:58:58.024Z"
+        }
+      ]
+    },
+    {
+      "id": "RX-1790423831242",
+      "doctor_id": "DOC-001",
+      "doctor_name": "Dr. Amit Sharma",
+      "doctor_reg": "MMC123456",
+      "patient_id": "PAT-001",
+      "patient_code": "SWS-P-8F42K91",
+      "patient_name": "Mrs. Sunita Sharma",
+      "status": "ACTIVE",
+      "date": "2026-09-26",
+      "created_at": "2026-09-26T11:57:11.242Z",
+      "items": [
+        {
+          "id": "ITEM-1790423831242",
+          "prescription_id": "RX-1790423831242",
+          "medicine_name": "crocin",
+          "strength": "200 mg",
+          "dose": "1 tablet",
+          "frequency": "Twice daily (1-0-1)",
+          "timing": "Morning + Night",
+          "duration": "15 days",
+          "instructions": "After meals",
+          "ai_confidence": "High (98.4%)",
+          "created_at": "2026-09-26T11:57:11.242Z"
+        }
+      ]
+    },
+    {
+      "id": "RX-1790422780903",
+      "doctor_id": "DOC-001",
+      "doctor_name": "Dr. Amit Sharma",
+      "doctor_reg": "MMC123456",
+      "patient_id": "PAT-001",
+      "patient_code": "SWS-P-8F42K91",
+      "patient_name": "Mrs. Sunita Sharma",
+      "status": "SUPERSEDED",
       "date": "2026-09-26",
       "created_at": "2026-09-26T11:39:40.903Z",
       "items": [
@@ -35,7 +224,7 @@
       "patient_id": "PAT-001",
       "patient_code": "SWS-P-8F42K91",
       "patient_name": "Mrs. Sunita Sharma",
-      "status": "ACTIVE",
+      "status": "SUPERSEDED",
       "date": "2026-09-26",
       "created_at": "2026-09-26T11:31:00.450Z",
       "items": [
@@ -127,12 +316,12 @@
       "id": "MED-001",
       "patient_id": "PAT-001",
       "medicine_name": "Metformin",
-      "strength": "850 mg",
-      "tablets_left": 29,
+      "strength": "500 mg",
+      "tablets_left": 28,
       "tablets_total": 30,
       "days_remaining": 14,
       "is_active": true,
-      "updated_at": "2026-09-26T11:40:39.024Z"
+      "updated_at": "2026-09-26T12:06:11.299Z"
     },
     {
       "id": "MED-002",
@@ -154,7 +343,51 @@
       "tablets_total": 30,
       "days_remaining": 15,
       "is_active": true,
-      "updated_at": "2026-09-26T11:39:40.903Z"
+      "updated_at": "2026-09-26T11:57:11.242Z"
+    },
+    {
+      "id": "MED-1790423938024",
+      "patient_id": "PAT-001",
+      "medicine_name": "parac",
+      "strength": "500 mg",
+      "tablets_left": 30,
+      "tablets_total": 30,
+      "days_remaining": 15,
+      "is_active": true,
+      "updated_at": "2026-09-26T11:58:58.024Z"
+    },
+    {
+      "id": "MED-1790424125657",
+      "patient_id": "PAT-001",
+      "medicine_name": "Met",
+      "strength": "200 mg",
+      "tablets_left": 29,
+      "tablets_total": 30,
+      "days_remaining": 14,
+      "is_active": true,
+      "updated_at": "2026-09-26T13:00:29.137Z"
+    },
+    {
+      "id": "MED-1790425899320",
+      "patient_id": "PAT-001",
+      "medicine_name": "hack",
+      "strength": "100 mg",
+      "tablets_left": 29,
+      "tablets_total": 30,
+      "days_remaining": 14,
+      "is_active": true,
+      "updated_at": "2026-09-26T12:32:03.055Z"
+    },
+    {
+      "id": "MED-1790427607186",
+      "patient_id": "PAT-001",
+      "medicine_name": "medicine",
+      "strength": "200 mg",
+      "tablets_left": 29,
+      "tablets_total": 30,
+      "days_remaining": 14,
+      "is_active": true,
+      "updated_at": "2026-09-26T13:00:31.693Z"
     }
   ],
   "schedules": [
@@ -164,11 +397,11 @@
       "scheduled_time": "08:00 AM",
       "label": "Morning",
       "medicine": "Metformin",
-      "strength": "850 mg",
+      "strength": "500 mg",
       "amount": "1 tablet",
       "instruction": "After meals",
       "status": "taken",
-      "updated_at": "2026-09-26T11:40:39.024Z"
+      "updated_at": "2026-09-26T12:06:09.303Z"
     },
     {
       "id": "d2",
@@ -200,11 +433,11 @@
       "scheduled_time": "08:00 PM",
       "label": "Evening",
       "medicine": "Metformin",
-      "strength": "850 mg",
+      "strength": "500 mg",
       "amount": "1 tablet",
       "instruction": "After meals",
-      "status": "missed",
-      "updated_at": "2026-09-26T11:31:00.480Z"
+      "status": "taken",
+      "updated_at": "2026-09-26T12:06:11.299Z"
     },
     {
       "id": "d-1790422780904",
@@ -216,10 +449,157 @@
       "amount": "1 tablet",
       "instruction": "After meals",
       "status": "missed",
-      "updated_at": "2026-09-26T11:42:21.032Z"
+      "updated_at": "2026-09-26T12:06:16.060Z"
+    },
+    {
+      "id": "d-1790423938024",
+      "patient_id": "PAT-001",
+      "scheduled_time": "08:00 PM",
+      "label": "Evening",
+      "medicine": "parac",
+      "strength": "500 mg",
+      "amount": "1 tablet",
+      "instruction": "After meals",
+      "status": "missed",
+      "updated_at": "2026-09-26T12:06:20.236Z"
+    },
+    {
+      "id": "d-1790424125657",
+      "patient_id": "PAT-001",
+      "scheduled_time": "08:00 PM",
+      "label": "Evening",
+      "medicine": "Met",
+      "strength": "200 mg",
+      "amount": "1 tablet",
+      "instruction": "After meals",
+      "status": "taken",
+      "updated_at": "2026-09-26T13:00:29.137Z"
+    },
+    {
+      "id": "d-1790425899320",
+      "patient_id": "PAT-001",
+      "scheduled_time": "08:00 PM",
+      "label": "Evening",
+      "medicine": "hack",
+      "strength": "100 mg",
+      "amount": "1 tablet",
+      "instruction": "After meals",
+      "status": "taken",
+      "updated_at": "2026-09-26T12:32:03.055Z"
+    },
+    {
+      "id": "d-1790427607186",
+      "patient_id": "PAT-001",
+      "scheduled_time": "08:00 PM",
+      "label": "Evening",
+      "medicine": "medicine",
+      "strength": "200 mg",
+      "amount": "1 tablet",
+      "instruction": "After meals",
+      "status": "taken",
+      "updated_at": "2026-09-26T13:00:31.693Z"
     }
   ],
   "adherence_logs": [
+    {
+      "id": "LOG-1790427631693",
+      "patient_id": "PAT-001",
+      "schedule_id": "d-1790427607186",
+      "medicine_name": "medicine",
+      "status": "TAKEN",
+      "scheduled_time": "08:00 PM",
+      "logged_at": "2026-09-26T13:00:31.693Z"
+    },
+    {
+      "id": "LOG-1790427629137",
+      "patient_id": "PAT-001",
+      "schedule_id": "d-1790424125657",
+      "medicine_name": "Met",
+      "status": "TAKEN",
+      "scheduled_time": "08:00 PM",
+      "logged_at": "2026-09-26T13:00:29.137Z"
+    },
+    {
+      "id": "LOG-1790425923055",
+      "patient_id": "PAT-001",
+      "schedule_id": "d-1790425899320",
+      "medicine_name": "hack",
+      "status": "TAKEN",
+      "scheduled_time": "08:00 PM",
+      "logged_at": "2026-09-26T12:32:03.055Z"
+    },
+    {
+      "id": "LOG-1790424403075",
+      "patient_id": "PAT-001",
+      "schedule_id": "d-1790424125657",
+      "medicine_name": "Met",
+      "status": "TAKEN",
+      "scheduled_time": "08:00 PM",
+      "logged_at": "2026-09-26T12:06:43.075Z"
+    },
+    {
+      "id": "LOG-1790424402943",
+      "patient_id": "PAT-001",
+      "schedule_id": "d-1790424125657",
+      "medicine_name": "Met",
+      "status": "TAKEN",
+      "scheduled_time": "08:00 PM",
+      "logged_at": "2026-09-26T12:06:42.943Z"
+    },
+    {
+      "id": "LOG-1790424382382",
+      "patient_id": "PAT-001",
+      "schedule_id": "d-1790424125657",
+      "medicine_name": "Met",
+      "status": "TAKEN",
+      "scheduled_time": "08:00 PM",
+      "logged_at": "2026-09-26T12:06:22.382Z"
+    },
+    {
+      "id": "LOG-1790424380236",
+      "patient_id": "PAT-001",
+      "schedule_id": "d-1790423938024",
+      "medicine_name": "parac",
+      "status": "MISSED",
+      "scheduled_time": "08:00 PM",
+      "logged_at": "2026-09-26T12:06:20.236Z"
+    },
+    {
+      "id": "LOG-1790424376060",
+      "patient_id": "PAT-001",
+      "schedule_id": "d-1790422780904",
+      "medicine_name": "crocin",
+      "status": "MISSED",
+      "scheduled_time": "08:00 PM",
+      "logged_at": "2026-09-26T12:06:16.060Z"
+    },
+    {
+      "id": "LOG-1790424374276",
+      "patient_id": "PAT-001",
+      "schedule_id": "d-1790422780904",
+      "medicine_name": "crocin",
+      "status": "SNOOZED",
+      "scheduled_time": "08:00 PM",
+      "logged_at": "2026-09-26T12:06:14.276Z"
+    },
+    {
+      "id": "LOG-1790424371299",
+      "patient_id": "PAT-001",
+      "schedule_id": "d4",
+      "medicine_name": "Metformin",
+      "status": "TAKEN",
+      "scheduled_time": "08:00 PM",
+      "logged_at": "2026-09-26T12:06:11.299Z"
+    },
+    {
+      "id": "LOG-1790424369304",
+      "patient_id": "PAT-001",
+      "schedule_id": "d1",
+      "medicine_name": "Metformin",
+      "status": "TAKEN",
+      "scheduled_time": "08:00 AM",
+      "logged_at": "2026-09-26T12:06:09.303Z"
+    },
     {
       "id": "LOG-1790422941032",
       "patient_id": "PAT-001",
@@ -294,6 +674,78 @@
     }
   ],
   "medicine_requests": [
+    {
+      "id": "REQ-1790427707231",
+      "patient_id": "PAT-001",
+      "patient_name": "Mrs. Sunita Sharma",
+      "patient_code": "SWS-P-8F42K91",
+      "requested_by_user_id": "SWS-P-8F42K91",
+      "requested_by_name": "Mrs. Sunita Sharma",
+      "requested_by_role": "caregiver",
+      "pharmacy_id": "PHARMACY-001",
+      "pharmacy_name": "ABC Medical",
+      "medicine_name": "met",
+      "strength": "500 mg",
+      "quantity": 220,
+      "status": "AVAILABLE",
+      "notes": "2 strips (20 tablets) requested. Shelf check required.",
+      "requested_at": "Today, 06:31 pm",
+      "responded_at": "Today, 06:31 pm"
+    },
+    {
+      "id": "REQ-1790425971192",
+      "patient_id": "PAT-001",
+      "patient_name": "Mrs. Sunita Sharma",
+      "patient_code": "SWS-P-8F42K91",
+      "requested_by_user_id": "SWS-P-8F42K91",
+      "requested_by_name": "Mrs. Sunita Sharma",
+      "requested_by_role": "caregiver",
+      "pharmacy_id": "PHARMACY-001",
+      "pharmacy_name": "ABC Medical",
+      "medicine_name": "Met",
+      "strength": "200 mg",
+      "quantity": 220,
+      "status": "AVAILABLE",
+      "notes": "2 strips (20 tablets) requested. Shelf check required.",
+      "requested_at": "Today, 06:02 pm",
+      "responded_at": "Today, 06:03 pm"
+    },
+    {
+      "id": "REQ-1790424455586",
+      "patient_id": "PAT-001",
+      "patient_name": "Mrs. Sunita Sharma",
+      "patient_code": "SWS-P-8F42K91",
+      "requested_by_user_id": "PAT-001",
+      "requested_by_name": "Mrs. Sunita Sharma",
+      "requested_by_role": "caregiver",
+      "pharmacy_id": "PHARMACY-001",
+      "pharmacy_name": "ABC Medical",
+      "medicine_name": "disprin",
+      "strength": "500 mg",
+      "quantity": 220,
+      "status": "AVAILABLE",
+      "notes": "2 strips (20 tablets) requested. Shelf check required.",
+      "requested_at": "Today, 05:37 pm",
+      "responded_at": "Today, 05:37 pm"
+    },
+    {
+      "id": "REQ-1790423639959",
+      "patient_id": "PAT-001",
+      "patient_name": "Mrs. Sunita Sharma",
+      "patient_code": "SWS-P-8F42K91",
+      "requested_by_user_id": "SWS-P-8F42K91",
+      "requested_by_name": "Mrs. Sunita Sharma",
+      "requested_by_role": "patient",
+      "pharmacy_id": "PHARMACY-001",
+      "pharmacy_name": "ABC Medical",
+      "medicine_name": "Metformin",
+      "strength": "850 mg",
+      "quantity": 220,
+      "status": "AVAILABLE",
+      "notes": "2 strips (20 tablets) requested. Shelf check required.",
+      "requested_at": "Today, 05:23 pm",
+      "responded_at": "Today, 05:24 pm"
+    },
     {
       "id": "REQ-1790423004416",
       "patient_id": "PAT-001",
@@ -386,6 +838,342 @@
     }
   ],
   "notifications": [
+    {
+      "id": "NOTIF-CG-RESP-1790427710839",
+      "recipient_user_id": "CAREGIVER-001",
+      "recipient_role": "caregiver",
+      "type": "PHARMACY_RESPONSE",
+      "title": "ABC Medical: Stock Response for Sunita",
+      "message": "ABC Medical confirmed availability of met 500 mg for Sunita Sharma.",
+      "related_entity_type": "medicine_request",
+      "related_entity_id": "REQ-1790427707231",
+      "read": false,
+      "created_at": "2026-09-26T13:01:50.836Z"
+    },
+    {
+      "id": "NOTIF-P-RESP-1790427710839",
+      "recipient_user_id": "PAT-001",
+      "recipient_role": "patient",
+      "type": "PHARMACY_RESPONSE",
+      "title": "ABC Medical: Stock Available",
+      "message": "ABC Medical confirmed availability of met 500 mg.",
+      "related_entity_type": "medicine_request",
+      "related_entity_id": "REQ-1790427707231",
+      "read": false,
+      "created_at": "2026-09-26T13:01:50.836Z"
+    },
+    {
+      "id": "NOTIF-PHARM-1790427707276",
+      "recipient_user_id": "PHARMACY-001",
+      "recipient_role": "pharmacy",
+      "type": "REQUEST_RECEIVED",
+      "title": "New Medicine Availability Request",
+      "message": "Mrs. Sunita Sharma (caregiver) requested 220 pack(s) of met 500 mg for Mrs. Sunita Sharma.",
+      "related_entity_type": "medicine_request",
+      "related_entity_id": "REQ-1790427707231",
+      "read": false,
+      "created_at": "2026-09-26T13:01:47.231Z"
+    },
+    {
+      "id": "NOTIF-CG-1790427607186",
+      "recipient_user_id": "CAREGIVER-001",
+      "recipient_role": "caregiver",
+      "type": "PRESCRIPTION_UPDATE",
+      "title": "Doctor updated medication plan: medicine 200 mg",
+      "message": "Dr. Amit Sharma (MMC123456) verified a new prescription for Sunita Sharma: medicine 200 mg, 1 tablet, Twice daily (1-0-1), After meals.",
+      "related_entity_type": "prescription",
+      "related_entity_id": "RX-1790427607185",
+      "read": false,
+      "created_at": "2026-09-26T13:00:07.185Z"
+    },
+    {
+      "id": "NOTIF-P-1790427607186",
+      "recipient_user_id": "PAT-001",
+      "recipient_role": "patient",
+      "type": "PRESCRIPTION_UPDATE",
+      "title": "Medication Plan Updated",
+      "message": "Dr. Amit Sharma updated your medication plan: medicine 200 mg (Twice daily (1-0-1)).",
+      "related_entity_type": "prescription",
+      "related_entity_id": "RX-1790427607185",
+      "read": false,
+      "created_at": "2026-09-26T13:00:07.185Z"
+    },
+    {
+      "id": "NOTIF-CG-1790426432651",
+      "recipient_user_id": "CAREGIVER-001",
+      "recipient_role": "caregiver",
+      "type": "PRESCRIPTION_UPDATE",
+      "title": "Doctor updated medication plan: Met 200 mg",
+      "message": "Dr. Amit Sharma (MMC123456) verified a new prescription for Sunita Sharma: Met 200 mg, 1 tablet, Twice daily (1-0-1), After meals.",
+      "related_entity_type": "prescription",
+      "related_entity_id": "RX-1790426432651",
+      "read": false,
+      "created_at": "2026-09-26T12:40:32.651Z"
+    },
+    {
+      "id": "NOTIF-P-1790426432651",
+      "recipient_user_id": "PAT-001",
+      "recipient_role": "patient",
+      "type": "PRESCRIPTION_UPDATE",
+      "title": "Medication Plan Updated",
+      "message": "Dr. Amit Sharma updated your medication plan: Met 200 mg (Twice daily (1-0-1)).",
+      "related_entity_type": "prescription",
+      "related_entity_id": "RX-1790426432651",
+      "read": false,
+      "created_at": "2026-09-26T12:40:32.651Z"
+    },
+    {
+      "id": "NOTIF-CG-RESP-1790425980398",
+      "recipient_user_id": "CAREGIVER-001",
+      "recipient_role": "caregiver",
+      "type": "PHARMACY_RESPONSE",
+      "title": "ABC Medical: Stock Response for Sunita",
+      "message": "ABC Medical confirmed availability of Met 200 mg for Sunita Sharma.",
+      "related_entity_type": "medicine_request",
+      "related_entity_id": "REQ-1790425971192",
+      "read": false,
+      "created_at": "2026-09-26T12:33:00.397Z"
+    },
+    {
+      "id": "NOTIF-P-RESP-1790425980398",
+      "recipient_user_id": "PAT-001",
+      "recipient_role": "patient",
+      "type": "PHARMACY_RESPONSE",
+      "title": "ABC Medical: Stock Available",
+      "message": "ABC Medical confirmed availability of Met 200 mg.",
+      "related_entity_type": "medicine_request",
+      "related_entity_id": "REQ-1790425971192",
+      "read": false,
+      "created_at": "2026-09-26T12:33:00.397Z"
+    },
+    {
+      "id": "NOTIF-PHARM-1790425971230",
+      "recipient_user_id": "PHARMACY-001",
+      "recipient_role": "pharmacy",
+      "type": "REQUEST_RECEIVED",
+      "title": "New Medicine Availability Request",
+      "message": "Mrs. Sunita Sharma (caregiver) requested 220 pack(s) of Met 200 mg for Mrs. Sunita Sharma.",
+      "related_entity_type": "medicine_request",
+      "related_entity_id": "REQ-1790425971192",
+      "read": false,
+      "created_at": "2026-09-26T12:32:51.192Z"
+    },
+    {
+      "id": "NOTIF-CG-1790425899322",
+      "recipient_user_id": "CAREGIVER-001",
+      "recipient_role": "caregiver",
+      "type": "PRESCRIPTION_UPDATE",
+      "title": "Doctor updated medication plan: hack 100 mg",
+      "message": "Dr. Amit Sharma (MMC123456) verified a new prescription for Sunita Sharma: hack 100 mg, 1 tablet, Twice daily (1-0-1), After meals.",
+      "related_entity_type": "prescription",
+      "related_entity_id": "RX-1790425899315",
+      "read": false,
+      "created_at": "2026-09-26T12:31:39.314Z"
+    },
+    {
+      "id": "NOTIF-P-1790425899321",
+      "recipient_user_id": "PAT-001",
+      "recipient_role": "patient",
+      "type": "PRESCRIPTION_UPDATE",
+      "title": "Medication Plan Updated",
+      "message": "Dr. Amit Sharma updated your medication plan: hack 100 mg (Twice daily (1-0-1)).",
+      "related_entity_type": "prescription",
+      "related_entity_id": "RX-1790425899315",
+      "read": false,
+      "created_at": "2026-09-26T12:31:39.314Z"
+    },
+    {
+      "id": "NOTIF-CG-RESP-1790424460606",
+      "recipient_user_id": "CAREGIVER-001",
+      "recipient_role": "caregiver",
+      "type": "PHARMACY_RESPONSE",
+      "title": "ABC Medical: Stock Response for Sunita",
+      "message": "ABC Medical confirmed availability of disprin 500 mg for Sunita Sharma.",
+      "related_entity_type": "medicine_request",
+      "related_entity_id": "REQ-1790424455586",
+      "read": false,
+      "created_at": "2026-09-26T12:07:40.604Z"
+    },
+    {
+      "id": "NOTIF-P-RESP-1790424460606",
+      "recipient_user_id": "PAT-001",
+      "recipient_role": "patient",
+      "type": "PHARMACY_RESPONSE",
+      "title": "ABC Medical: Stock Available",
+      "message": "ABC Medical confirmed availability of disprin 500 mg.",
+      "related_entity_type": "medicine_request",
+      "related_entity_id": "REQ-1790424455586",
+      "read": false,
+      "created_at": "2026-09-26T12:07:40.604Z"
+    },
+    {
+      "id": "NOTIF-PHARM-1790424455591",
+      "recipient_user_id": "PHARMACY-001",
+      "recipient_role": "pharmacy",
+      "type": "REQUEST_RECEIVED",
+      "title": "New Medicine Availability Request",
+      "message": "Mrs. Sunita Sharma (caregiver) requested 220 pack(s) of disprin 500 mg for Mrs. Sunita Sharma.",
+      "related_entity_type": "medicine_request",
+      "related_entity_id": "REQ-1790424455586",
+      "read": false,
+      "created_at": "2026-09-26T12:07:35.586Z"
+    },
+    {
+      "id": "NOTIF-ALERT-1790424380236",
+      "recipient_user_id": "CAREGIVER-001",
+      "recipient_role": "caregiver",
+      "type": "MEDICATION_ALERT",
+      "title": "Medication Attention Required",
+      "message": "Sunita has missed her evening parac medication acknowledgement.",
+      "related_entity_type": "adherence_log",
+      "related_entity_id": "d-1790423938024",
+      "read": false,
+      "created_at": "2026-09-26T12:06:20.236Z"
+    },
+    {
+      "id": "NOTIF-ALERT-1790424376060",
+      "recipient_user_id": "CAREGIVER-001",
+      "recipient_role": "caregiver",
+      "type": "MEDICATION_ALERT",
+      "title": "Medication Attention Required",
+      "message": "Sunita has missed her evening crocin medication acknowledgement.",
+      "related_entity_type": "adherence_log",
+      "related_entity_id": "d-1790422780904",
+      "read": false,
+      "created_at": "2026-09-26T12:06:16.060Z"
+    },
+    {
+      "id": "NOTIF-CG-1790424256158",
+      "recipient_user_id": "CAREGIVER-001",
+      "recipient_role": "caregiver",
+      "type": "PRESCRIPTION_UPDATE",
+      "title": "Doctor updated medication plan: Metformin 500 mg",
+      "message": "Dr. Amit Sharma (MMC123456) verified a new prescription for Sunita Sharma: Metformin 500 mg, 1 tablet, Twice daily (1-0-1), After meals.",
+      "related_entity_type": "prescription",
+      "related_entity_id": "RX-1790424256158",
+      "read": false,
+      "created_at": "2026-09-26T12:04:16.158Z"
+    },
+    {
+      "id": "NOTIF-P-1790424256158",
+      "recipient_user_id": "PAT-001",
+      "recipient_role": "patient",
+      "type": "PRESCRIPTION_UPDATE",
+      "title": "Medication Plan Updated",
+      "message": "Dr. Amit Sharma updated your medication plan: Metformin 500 mg (Twice daily (1-0-1)).",
+      "related_entity_type": "prescription",
+      "related_entity_id": "RX-1790424256158",
+      "read": false,
+      "created_at": "2026-09-26T12:04:16.158Z"
+    },
+    {
+      "id": "NOTIF-CG-1790424125657",
+      "recipient_user_id": "CAREGIVER-001",
+      "recipient_role": "caregiver",
+      "type": "PRESCRIPTION_UPDATE",
+      "title": "Doctor updated medication plan: Met 230 mg",
+      "message": "Dr. Amit Sharma (MMC123456) verified a new prescription for Sunita Sharma: Met 230 mg, 1 tablet, Twice daily (1-0-1), After meals.",
+      "related_entity_type": "prescription",
+      "related_entity_id": "RX-1790424125657",
+      "read": false,
+      "created_at": "2026-09-26T12:02:05.657Z"
+    },
+    {
+      "id": "NOTIF-P-1790424125657",
+      "recipient_user_id": "PAT-001",
+      "recipient_role": "patient",
+      "type": "PRESCRIPTION_UPDATE",
+      "title": "Medication Plan Updated",
+      "message": "Dr. Amit Sharma updated your medication plan: Met 230 mg (Twice daily (1-0-1)).",
+      "related_entity_type": "prescription",
+      "related_entity_id": "RX-1790424125657",
+      "read": false,
+      "created_at": "2026-09-26T12:02:05.657Z"
+    },
+    {
+      "id": "NOTIF-CG-1790423938024",
+      "recipient_user_id": "CAREGIVER-001",
+      "recipient_role": "caregiver",
+      "type": "PRESCRIPTION_UPDATE",
+      "title": "Doctor updated medication plan: parac 500 mg",
+      "message": "Dr. Amit Sharma (MMC123456) verified a new prescription for Sunita Sharma: parac 500 mg, 1 tablet, Twice daily (1-0-1), After meals.",
+      "related_entity_type": "prescription",
+      "related_entity_id": "RX-1790423938024",
+      "read": false,
+      "created_at": "2026-09-26T11:58:58.024Z"
+    },
+    {
+      "id": "NOTIF-P-1790423938024",
+      "recipient_user_id": "PAT-001",
+      "recipient_role": "patient",
+      "type": "PRESCRIPTION_UPDATE",
+      "title": "Medication Plan Updated",
+      "message": "Dr. Amit Sharma updated your medication plan: parac 500 mg (Twice daily (1-0-1)).",
+      "related_entity_type": "prescription",
+      "related_entity_id": "RX-1790423938024",
+      "read": false,
+      "created_at": "2026-09-26T11:58:58.024Z"
+    },
+    {
+      "id": "NOTIF-CG-1790423831242",
+      "recipient_user_id": "CAREGIVER-001",
+      "recipient_role": "caregiver",
+      "type": "PRESCRIPTION_UPDATE",
+      "title": "Doctor updated medication plan: crocin 200 mg",
+      "message": "Dr. Amit Sharma (MMC123456) verified a new prescription for Sunita Sharma: crocin 200 mg, 1 tablet, Twice daily (1-0-1), After meals.",
+      "related_entity_type": "prescription",
+      "related_entity_id": "RX-1790423831242",
+      "read": false,
+      "created_at": "2026-09-26T11:57:11.242Z"
+    },
+    {
+      "id": "NOTIF-P-1790423831242",
+      "recipient_user_id": "PAT-001",
+      "recipient_role": "patient",
+      "type": "PRESCRIPTION_UPDATE",
+      "title": "Medication Plan Updated",
+      "message": "Dr. Amit Sharma updated your medication plan: crocin 200 mg (Twice daily (1-0-1)).",
+      "related_entity_type": "prescription",
+      "related_entity_id": "RX-1790423831242",
+      "read": false,
+      "created_at": "2026-09-26T11:57:11.242Z"
+    },
+    {
+      "id": "NOTIF-CG-RESP-1790423646421",
+      "recipient_user_id": "CAREGIVER-001",
+      "recipient_role": "caregiver",
+      "type": "PHARMACY_RESPONSE",
+      "title": "ABC Medical: Stock Response for Sunita",
+      "message": "ABC Medical confirmed availability of Metformin 850 mg for Sunita Sharma.",
+      "related_entity_type": "medicine_request",
+      "related_entity_id": "REQ-1790423639959",
+      "read": false,
+      "created_at": "2026-09-26T11:54:06.420Z"
+    },
+    {
+      "id": "NOTIF-P-RESP-1790423646421",
+      "recipient_user_id": "PAT-001",
+      "recipient_role": "patient",
+      "type": "PHARMACY_RESPONSE",
+      "title": "ABC Medical: Stock Available",
+      "message": "ABC Medical confirmed availability of Metformin 850 mg.",
+      "related_entity_type": "medicine_request",
+      "related_entity_id": "REQ-1790423639959",
+      "read": false,
+      "created_at": "2026-09-26T11:54:06.420Z"
+    },
+    {
+      "id": "NOTIF-PHARM-1790423639988",
+      "recipient_user_id": "PHARMACY-001",
+      "recipient_role": "pharmacy",
+      "type": "REQUEST_RECEIVED",
+      "title": "New Medicine Availability Request",
+      "message": "Mrs. Sunita Sharma (patient) requested 220 pack(s) of Metformin 850 mg for Mrs. Sunita Sharma.",
+      "related_entity_type": "medicine_request",
+      "related_entity_id": "REQ-1790423639959",
+      "read": false,
+      "created_at": "2026-09-26T11:53:59.959Z"
+    },
     {
       "id": "NOTIF-CG-RESP-1790423030968",
       "recipient_user_id": "CAREGIVER-001",
@@ -673,5 +1461,5 @@
       "created_at": "2026-09-26T11:25:04.998Z"
     }
   ],
-  "last_updated": "2026-09-26T11:43:50.968Z"
+  "last_updated": "2026-09-26T13:01:50.836Z"
 }

@@ -62,3 +62,5 @@ function FooterCol({ title, items }: { title: string; items: { label: string; to
     </div>
   );
 }
+
+// Swasthya MedCare - Commit&Run Hackathon

@@ -149,3 +149,5 @@ npm run dev
 ---
 
 *Submitted for Hackathon 2026 by Team COMMIT&RUN.*
+
+<!-- Swasthya MedCare - Commit&Run Hackathon -->

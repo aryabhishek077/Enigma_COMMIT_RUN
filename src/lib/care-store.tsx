@@ -688,3 +688,5 @@ export function useCare() {
   if (!ctx) throw new Error("useCare must be used inside CareProvider");
   return ctx;
 }
+
+// Swasthya MedCare - Commit&Run Hackathon

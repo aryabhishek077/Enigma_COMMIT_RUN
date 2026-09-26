@@ -44,3 +44,5 @@ export default defineConfig({
     server: { entry: "server" },
   },
 });
+
+// Swasthya MedCare - Commit&Run Hackathon

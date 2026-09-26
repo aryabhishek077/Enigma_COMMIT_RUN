@@ -200,3 +200,5 @@ CREATE POLICY "Medication schedules access" ON public.medication_schedules FOR A
 CREATE POLICY "Adherence logs read/write" ON public.adherence_logs FOR ALL USING (true);
 CREATE POLICY "Medicine requests access" ON public.medicine_requests FOR ALL USING (true);
 CREATE POLICY "Notifications access" ON public.notifications FOR ALL USING (true);
+
+-- Swasthya MedCare - Commit&Run Hackathon

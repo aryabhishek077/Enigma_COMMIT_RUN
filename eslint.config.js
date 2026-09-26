@@ -38,3 +38,5 @@ export default tseslint.config(
   },
   eslintPluginPrettier,
 );
+
+// Swasthya MedCare - Commit&Run Hackathon

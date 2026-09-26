@@ -728,3 +728,5 @@ declare module '@tanstack/react-start' {
     config: Awaited<ReturnType<typeof startInstance.getOptions>>
   }
 }
+
+// Swasthya MedCare - Commit&Run Hackathon

@@ -63,3 +63,5 @@ export function SectionHeading({
     </div>
   );
 }
+
+// Swasthya MedCare - Commit&Run Hackathon

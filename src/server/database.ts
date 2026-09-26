@@ -686,3 +686,5 @@ class DatabaseManager {
 }
 
 export const sharedDatabase = new DatabaseManager();
+
+// Swasthya MedCare - Commit&Run Hackathon

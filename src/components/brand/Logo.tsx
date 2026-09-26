@@ -53,3 +53,5 @@ export function Logo({
     </Link>
   );
 }
+
+// Swasthya MedCare - Commit&Run Hackathon

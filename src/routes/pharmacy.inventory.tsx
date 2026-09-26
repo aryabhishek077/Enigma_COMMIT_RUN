@@ -61,3 +61,5 @@ function PharmacyInventoryPage() {
     </DashboardShell>
   );
 }
+
+// Swasthya MedCare - Commit&Run Hackathon

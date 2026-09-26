@@ -17,3 +17,5 @@ export function useIsMobile() {
 
   return !!isMobile;
 }
+
+// Swasthya MedCare - Commit&Run Hackathon

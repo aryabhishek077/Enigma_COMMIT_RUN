@@ -30,3 +30,5 @@ function Badge({ className, variant, ...props }: BadgeProps) {
 }
 
 export { Badge, badgeVariants };
+
+// Swasthya MedCare - Commit&Run Hackathon

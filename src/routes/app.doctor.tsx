@@ -5,3 +5,5 @@ export const Route = createFileRoute("/app/doctor")({
     throw redirect({ to: "/doctor/dashboard" });
   },
 });
+
+// Swasthya MedCare - Commit&Run Hackathon

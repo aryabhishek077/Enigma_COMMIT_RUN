@@ -58,3 +58,5 @@ export function SupplyCard({ item }: { item: SupplyItem }) {
     </div>
   );
 }
+
+// Swasthya MedCare - Commit&Run Hackathon

@@ -288,3 +288,5 @@ export const journeySteps = [
   { n: "07", title: "Medicine discovery", detail: "Low supply triggers a nearby pharmacy search." },
   { n: "08", title: "Pharmacy confirmation", detail: "The pharmacy confirms availability before the trip." },
 ];
+
+// Swasthya MedCare - Commit&Run Hackathon
